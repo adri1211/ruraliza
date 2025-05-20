@@ -1,6 +1,8 @@
+import React from 'react';
 import { Outlet } from 'react-router-dom'
 import { AuthProvider } from '../context/AuthContext'
 import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
 
 const RootLayout = () => {
   return (
@@ -10,6 +12,7 @@ const RootLayout = () => {
         <main className="flex-grow">
           <Outlet />
         </main>
+        <Footer />
       </div>
     </AuthProvider>
   )
