@@ -28,27 +28,27 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-amber-50">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md border border-amber-200">
-        <h2 className="text-2xl font-bold text-center text-amber-800">Iniciar Sesión</h2>
+    <div className="flex justify-center items-center min-h-screen bg-gray-50">
+      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md border border-gray-200">
+        <h2 className="text-2xl font-bold text-center text-gray-900">Iniciar Sesión</h2>
         
         {error && <div className="p-3 bg-red-100 text-red-700 rounded">{error.message}</div>}
         
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-amber-700">Email</label>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
             <input
               id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-3 py-2 mt-1 border border-amber-300 rounded-md focus:ring-amber-500 focus:border-amber-500"
+              className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
             />
           </div>
           
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-amber-700">Contraseña</label>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Contraseña</label>
             <div className="relative">
               <input
                 id="password"
@@ -56,12 +56,12 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full px-3 py-2 mt-1 border border-amber-300 rounded-md focus:ring-amber-500 focus:border-amber-500"
+                className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
               />
               <button 
                 type="button" 
                 onClick={toggleShowPassword} 
-                className="absolute inset-y-0 right-0 pr-3 flex items-center text-amber-500 mt-1"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 mt-1"
               >
                 {showPassword ? (
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
@@ -81,7 +81,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full px-4 py-2 text-gray-800 bg-amber-400 rounded-md hover:bg-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
+              className="w-full px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
             </button>

@@ -1,15 +1,15 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
-const ProtectedRoute = () => {
+const ProtectedRoute = ({ children }) => {
     const { user, isLoading } = useAuth();
 
     // Mostrar un spinner simple mientras se verifica la autenticación
     if (isLoading) {
         return (
-          <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-500"></div>
-      </div>
+            <div className="flex justify-center items-center h-64">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div>
+            </div>
         );
     }
 
@@ -19,7 +19,7 @@ const ProtectedRoute = () => {
     }
 
     // Si el usuario está autenticado, mostrar el contenido protegido
-    return <Outlet />;
+    return children;
 };
 
 export default ProtectedRoute;

@@ -8,6 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -47,6 +49,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $birthdate = null;
+
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Space::class, orphanRemoval: true)]
+    private Collection $spaces;
+
+    public function __construct()
+    {
+        $this->spaces = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -167,6 +177,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): static
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Space>
+     */
+    public function getSpaces(): Collection
+    {
+        return $this->spaces;
+    }
+
+    public function addSpace(Space $space): static
+    {
+        if (!$this->spaces->contains($space)) {
+            $this->spaces->add($space);
+            $space->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSpace(Space $space): static
+    {
+        if ($this->spaces->removeElement($space)) {
+            // set the owning side to null (unless already changed)
+            if ($space->getOwner() === $this) {
+                $space->setOwner(null);
+            }
+        }
 
         return $this;
     }
