@@ -1,6 +1,7 @@
-- responsive
-
- -------------- COSAS QUE HACER CUANDO ESTE ACABADO ---------------------
- - Ordenar funciones en repositorios
- - Ordenar controladores
- - explicacion de codigo
+---- POR HACER ----
+-Pagina favoritos
+-Funcionamiento alquiler
+-Chat arrendador/arrendatario
+-Pagina contacto
+-Preguntas frecuentes
+-Quienes somos
