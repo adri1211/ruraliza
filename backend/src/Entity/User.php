@@ -10,6 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -22,6 +23,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Groups(['space:read'])]
     private ?string $username = null;
 
     #[ORM\Column(length: 180, unique: true)]
@@ -29,19 +31,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Email(message: "El email no es válido")]
     private string $email;
 
-    /**
-     * @var list<string> The user roles
-     */
+
     #[ORM\Column]
     private array $roles = [];
 
-    /**
-     * @var string The hashed password
-     */
+
     #[ORM\Column]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['space:read'])]
     private ?string $fullName = null;
 
     #[ORM\Column]
@@ -75,20 +74,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
+
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
     }
 
-    /**
-     * @see UserInterface
-     * @return list<string>
-     */
+
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -98,9 +90,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
-    /**
-     * @param list<string> $roles
-     */
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;
@@ -108,9 +97,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
+
     public function getPassword(): string
     {
         return $this->password;
@@ -123,9 +110,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
+
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
@@ -181,9 +166,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Space>
-     */
+
     public function getSpaces(): Collection
     {
         return $this->spaces;
@@ -202,7 +185,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeSpace(Space $space): static
     {
         if ($this->spaces->removeElement($space)) {
-            // set the owning side to null (unless already changed)
             if ($space->getOwner() === $this) {
                 $space->setOwner(null);
             }

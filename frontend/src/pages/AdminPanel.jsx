@@ -1,29 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import Cookies from 'js-cookie';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Paper,
-    Button,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    TextField,
-    Tabs,
-    Tab,
-    Box,
-    Typography,
-    IconButton,
-    Alert,
-} from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import './AdminPanel.css';
 
 const AdminPanel = () => {
     const { user } = useContext(AuthContext);
@@ -140,176 +118,201 @@ const AdminPanel = () => {
     };
 
     if (!user?.roles?.includes('ROLE_ADMIN')) {
-        return <Alert severity="error">No tienes permisos para acceder a esta página</Alert>;
+        return <div className="alert error">No tienes permisos para acceder a esta página</div>;
     }
 
     return (
-        <Box sx={{ width: '100%', p: 3 }}>
-            <Typography variant="h4" gutterBottom>
-                Panel de Administración
-            </Typography>
+        <div className="admin-panel">
+            <h1>Panel de Administración</h1>
 
-            {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-            {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
+            {error && <div className="alert error">{error}</div>}
+            {success && <div className="alert success">{success}</div>}
 
-            <Tabs value={tabValue} onChange={(e, newValue) => setTabValue(newValue)} sx={{ mb: 2 }}>
-                <Tab label="Usuarios" />
-                <Tab label="Espacios" />
-            </Tabs>
+            <div className="tabs">
+                <button 
+                    className={`tab ${tabValue === 0 ? 'active' : ''}`} 
+                    onClick={() => setTabValue(0)}
+                >
+                    Usuarios
+                </button>
+                <button 
+                    className={`tab ${tabValue === 1 ? 'active' : ''}`} 
+                    onClick={() => setTabValue(1)}
+                >
+                    Espacios
+                </button>
+            </div>
 
             {tabValue === 0 && (
-                <TableContainer component={Paper}>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>ID</TableCell>
-                                <TableCell>Email</TableCell>
-                                <TableCell>Usuario</TableCell>
-                                <TableCell>Nombre Completo</TableCell>
-                                <TableCell>Roles</TableCell>
-                                <TableCell>Acciones</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
+                <div className="table-container">
+                    <table className="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Email</th>
+                                <th>Usuario</th>
+                                <th>Nombre Completo</th>
+                                <th>Roles</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             {users.map((user) => (
-                                <TableRow key={user.id}>
-                                    <TableCell>{user.id}</TableCell>
-                                    <TableCell>{user.email}</TableCell>
-                                    <TableCell>{user.username}</TableCell>
-                                    <TableCell>{user.fullName}</TableCell>
-                                    <TableCell>{user.roles.join(', ')}</TableCell>
-                                    <TableCell>
-                                        <IconButton onClick={() => handleEdit(user, 'users')}>
-                                            <EditIcon />
-                                        </IconButton>
-                                        <IconButton onClick={() => handleDelete(user.id, 'users')}>
-                                            <DeleteIcon />
-                                        </IconButton>
-                                    </TableCell>
-                                </TableRow>
+                                <tr key={user.id}>
+                                    <td>{user.id}</td>
+                                    <td>{user.email}</td>
+                                    <td>{user.username}</td>
+                                    <td>{user.fullName}</td>
+                                    <td>{user.roles.join(', ')}</td>
+                                    <td>
+                                        <button 
+                                            className="action-button edit"
+                                            onClick={() => handleEdit(user, 'users')}
+                                        >
+                                            Editar
+                                        </button>
+                                        <button 
+                                            className="action-button delete"
+                                            onClick={() => handleDelete(user.id, 'users')}
+                                        >
+                                            Eliminar
+                                        </button>
+                                    </td>
+                                </tr>
                             ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                        </tbody>
+                    </table>
+                </div>
             )}
 
             {tabValue === 1 && (
-                <TableContainer component={Paper}>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>ID</TableCell>
-                                <TableCell>Ubicación</TableCell>
-                                <TableCell>Precio</TableCell>
-                                <TableCell>Categoría</TableCell>
-                                <TableCell>Propietario</TableCell>
-                                <TableCell>Acciones</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
+                <div className="table-container">
+                    <table className="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Ubicación</th>
+                                <th>Precio</th>
+                                <th>Categoría</th>
+                                <th>Propietario</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             {spaces.map((space) => (
-                                <TableRow key={space.id}>
-                                    <TableCell>{space.id}</TableCell>
-                                    <TableCell>{space.location}</TableCell>
-                                    <TableCell>{space.price}€</TableCell>
-                                    <TableCell>{space.category}</TableCell>
-                                    <TableCell>{space.owner.username}</TableCell>
-                                    <TableCell>
-                                        <IconButton onClick={() => handleEdit(space, 'spaces')}>
-                                            <EditIcon />
-                                        </IconButton>
-                                        <IconButton onClick={() => handleDelete(space.id, 'spaces')}>
-                                            <DeleteIcon />
-                                        </IconButton>
-                                    </TableCell>
-                                </TableRow>
+                                <tr key={space.id}>
+                                    <td>{space.id}</td>
+                                    <td>{space.location}</td>
+                                    <td>{space.price}€</td>
+                                    <td>{space.category}</td>
+                                    <td>{space.owner.username}</td>
+                                    <td>
+                                        <button 
+                                            className="action-button edit"
+                                            onClick={() => handleEdit(space, 'spaces')}
+                                        >
+                                            Editar
+                                        </button>
+                                        <button 
+                                            className="action-button delete"
+                                            onClick={() => handleDelete(space.id, 'spaces')}
+                                        >
+                                            Eliminar
+                                        </button>
+                                    </td>
+                                </tr>
                             ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                        </tbody>
+                    </table>
+                </div>
             )}
 
-            <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-                <DialogTitle>
-                    Editar {selectedItem?.type === 'users' ? 'Usuario' : 'Espacio'}
-                </DialogTitle>
-                <DialogContent>
-                    {selectedItem?.type === 'users' ? (
-                        <>
-                            <TextField
-                                margin="dense"
-                                label="Email"
-                                fullWidth
-                                value={editData.email || ''}
-                                onChange={(e) => setEditData({ ...editData, email: e.target.value })}
-                            />
-                            <TextField
-                                margin="dense"
-                                label="Usuario"
-                                fullWidth
-                                value={editData.username || ''}
-                                onChange={(e) => setEditData({ ...editData, username: e.target.value })}
-                            />
-                            <TextField
-                                margin="dense"
-                                label="Nombre Completo"
-                                fullWidth
-                                value={editData.fullName || ''}
-                                onChange={(e) => setEditData({ ...editData, fullName: e.target.value })}
-                            />
-                            <TextField
-                                margin="dense"
-                                label="Roles"
-                                fullWidth
-                                value={editData.roles?.join(', ') || ''}
-                                onChange={(e) => setEditData({ ...editData, roles: e.target.value.split(',').map(r => r.trim()) })}
-                                helperText="Separar roles por comas"
-                            />
-                        </>
-                    ) : (
-                        <>
-                            <TextField
-                                margin="dense"
-                                label="Ubicación"
-                                fullWidth
-                                value={editData.location || ''}
-                                onChange={(e) => setEditData({ ...editData, location: e.target.value })}
-                            />
-                            <TextField
-                                margin="dense"
-                                label="Precio"
-                                type="number"
-                                fullWidth
-                                value={editData.price || ''}
-                                onChange={(e) => setEditData({ ...editData, price: parseFloat(e.target.value) })}
-                            />
-                            <TextField
-                                margin="dense"
-                                label="Categoría"
-                                fullWidth
-                                value={editData.category || ''}
-                                onChange={(e) => setEditData({ ...editData, category: e.target.value })}
-                            />
-                            <TextField
-                                margin="dense"
-                                label="Descripción"
-                                fullWidth
-                                multiline
-                                rows={4}
-                                value={editData.description || ''}
-                                onChange={(e) => setEditData({ ...editData, description: e.target.value })}
-                            />
-                        </>
-                    )}
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setOpenDialog(false)}>Cancelar</Button>
-                    <Button onClick={handleSave} variant="contained" color="primary">
-                        Guardar
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </Box>
+            {openDialog && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <h2>Editar {selectedItem?.type === 'users' ? 'Usuario' : 'Espacio'}</h2>
+                        <div className="form-group">
+                            {selectedItem?.type === 'users' ? (
+                                <>
+                                    <div className="form-field">
+                                        <label>Email:</label>
+                                        <input
+                                            type="email"
+                                            value={editData.email || ''}
+                                            onChange={(e) => setEditData({ ...editData, email: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="form-field">
+                                        <label>Usuario:</label>
+                                        <input
+                                            type="text"
+                                            value={editData.username || ''}
+                                            onChange={(e) => setEditData({ ...editData, username: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="form-field">
+                                        <label>Nombre Completo:</label>
+                                        <input
+                                            type="text"
+                                            value={editData.fullName || ''}
+                                            onChange={(e) => setEditData({ ...editData, fullName: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="form-field">
+                                        <label>Roles:</label>
+                                        <input
+                                            type="text"
+                                            value={editData.roles?.join(', ') || ''}
+                                            onChange={(e) => setEditData({ ...editData, roles: e.target.value.split(',').map(r => r.trim()) })}
+                                        />
+                                        <small>Separar roles por comas</small>
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <div className="form-field">
+                                        <label>Ubicación:</label>
+                                        <input
+                                            type="text"
+                                            value={editData.location || ''}
+                                            onChange={(e) => setEditData({ ...editData, location: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="form-field">
+                                        <label>Precio:</label>
+                                        <input
+                                            type="number"
+                                            value={editData.price || ''}
+                                            onChange={(e) => setEditData({ ...editData, price: parseFloat(e.target.value) })}
+                                        />
+                                    </div>
+                                    <div className="form-field">
+                                        <label>Categoría:</label>
+                                        <input
+                                            type="text"
+                                            value={editData.category || ''}
+                                            onChange={(e) => setEditData({ ...editData, category: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="form-field">
+                                        <label>Descripción:</label>
+                                        <textarea
+                                            value={editData.description || ''}
+                                            onChange={(e) => setEditData({ ...editData, description: e.target.value })}
+                                            rows={4}
+                                        />
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                        <div className="modal-actions">
+                            <button onClick={() => setOpenDialog(false)}>Cancelar</button>
+                            <button onClick={handleSave} className="save-button">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
     );
 };
 

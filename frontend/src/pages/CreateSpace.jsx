@@ -59,9 +59,8 @@ const CreateSpace = () => {
       formDataToSend.append('price', formData.price);
       formDataToSend.append('description', formData.description);
       formDataToSend.append('category', formData.category);
-      formDataToSend.append('userId', user.id);
-      formData.images.forEach((image, index) => {
-        formDataToSend.append('images', image);
+      formData.images.forEach((image) => {
+        formDataToSend.append('images[]', image);
       });
 
       const token = Cookies.get('jwt_token');
