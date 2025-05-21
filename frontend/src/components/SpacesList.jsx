@@ -90,46 +90,59 @@ const SpacesList = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <h1 className="text-2xl font-bold text-gray-900 mb-6">Espacios Disponibles</h1>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {spaces.map((space) => (
-                    <div
-                        key={space.id}
-                        className="bg-white overflow-hidden shadow rounded-lg transition duration-300 hover:shadow-lg"
-                    >
-                        <div className="relative h-48">
-                            {space.images && space.images.length > 0 ? (
-                                <img
-                                    src={`http://localhost:8000/uploads/spaces/${space.images[0]}`}
-                                    alt={space.location}
-                                    className="w-full h-full object-cover"
-                                />
-                            ) : (
-                                <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                                    <svg className="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
+                {spaces.map((space) => {
+                    // Log para depuración
+                    console.log('Imágenes del espacio', space.id, space.images);
+                    let imageUrl = '';
+                    if (space.images && space.images.length > 0) {
+                        // Si la imagen es una URL absoluta, úsala tal cual
+                        if (space.images[0].startsWith('http')) {
+                            imageUrl = space.images[0];
+                        } else {
+                            imageUrl = `http://localhost:8000/uploads/spaces/${space.images[0]}`;
+                        }
+                    }
+                    return (
+                        <div
+                            key={space.id}
+                            className="bg-white overflow-hidden shadow rounded-lg transition duration-300 hover:shadow-lg"
+                        >
+                            <div className="relative h-48">
+                                {imageUrl ? (
+                                    <img
+                                        src={imageUrl}
+                                        alt={space.location}
+                                        className="w-full h-full object-cover"
+                                    />
+                                ) : (
+                                    <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                                        <svg className="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                )}
+                                <div className="absolute top-0 right-0 mt-2 mr-2">
+                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                                        {space.category}
+                                    </span>
                                 </div>
-                            )}
-                            <div className="absolute top-0 right-0 mt-2 mr-2">
-                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
-                                    {space.category}
-                                </span>
+                            </div>
+                            <div className="p-6">
+                                <h3 className="text-lg font-medium text-gray-900">{space.location}</h3>
+                                <p className="mt-2 text-sm text-gray-500 line-clamp-2">{space.description}</p>
+                                <div className="mt-4 flex justify-between items-center">
+                                    <span className="text-lg font-bold text-indigo-600">{space.price}€/mes</span>
+                                    <Link
+                                        to={`/espacios/${space.id}`}
+                                        className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    >
+                                        Ver detalles
+                                    </Link>
+                                </div>
                             </div>
                         </div>
-                        <div className="p-6">
-                            <h3 className="text-lg font-medium text-gray-900">{space.location}</h3>
-                            <p className="mt-2 text-sm text-gray-500 line-clamp-2">{space.description}</p>
-                            <div className="mt-4 flex justify-between items-center">
-                                <span className="text-lg font-bold text-indigo-600">{space.price}€/mes</span>
-                                <Link
-                                    to={`/espacios/${space.id}`}
-                                    className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                >
-                                    Ver detalles
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         </div>
     );

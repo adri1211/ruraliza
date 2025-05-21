@@ -11,6 +11,7 @@ import Spaces from '../pages/Spaces';
 import AdminPanel from '../pages/AdminPanel';
 import { useAuth } from '../hooks/useAuth';
 import { Navigate } from "react-router-dom";
+import SpaceDetails from '../pages/SpaceDetails';
 
 // Componente para proteger rutas de administrador
 const AdminRoute = ({ children }) => {
@@ -68,6 +69,10 @@ export const router = createBrowserRouter([
             {
                 path: "espacios",
                 element: <Spaces />,
+            },
+            {
+                path: "espacios/:id",
+                element: <SpaceDetails />,
             },
             {
                 path: "admin",

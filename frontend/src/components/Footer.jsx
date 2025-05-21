@@ -23,8 +23,8 @@ const Footer = () => {
             </h3>
             <ul className="mt-4 space-y-3">
               <li>
-                <Link to="/como-funciona" className="text-sm text-gray-600 hover:text-gray-900">
-                  Cómo funciona
+                <Link to="/quienes-somos" className="text-sm text-gray-600 hover:text-gray-900">
+                  Quienes somos
                 </Link>
               </li>
               <li>
