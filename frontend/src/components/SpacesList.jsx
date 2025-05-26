@@ -13,12 +13,15 @@ const SpacesList = () => {
         try {
             setLoading(true);
             const token = Cookies.get('jwt_token');
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
             const response = await fetch('http://localhost:8000/api/spaces', {
                 method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
+                headers
             });
 
             if (!response.ok) {

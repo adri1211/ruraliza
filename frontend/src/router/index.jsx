@@ -12,6 +12,7 @@ import AdminPanel from '../pages/AdminPanel';
 import { useAuth } from '../hooks/useAuth';
 import { Navigate } from "react-router-dom";
 import SpaceDetails from '../pages/SpaceDetails';
+import Notifications from '../pages/Notifications';
 
 // Componente para proteger rutas de administrador
 const AdminRoute = ({ children }) => {
@@ -81,6 +82,14 @@ export const router = createBrowserRouter([
                         <AdminRoute>
                             <AdminPanel />
                         </AdminRoute>
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: "notificaciones",
+                element: (
+                    <ProtectedRoute>
+                        <Notifications />
                     </ProtectedRoute>
                 ),
             },
