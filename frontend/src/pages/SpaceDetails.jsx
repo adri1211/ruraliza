@@ -7,6 +7,7 @@ const SpaceDetails = () => {
   const [space, setSpace] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [notificationStatus, setNotificationStatus] = useState(null);
 
   useEffect(() => {
     const fetchSpace = async () => {
@@ -30,6 +31,32 @@ const SpaceDetails = () => {
     };
     fetchSpace();
   }, [id]);
+
+  const handleRent = async () => {
+    setNotificationStatus(null);
+    try {
+      const token = Cookies.get('jwt_token');
+      if (!token) {
+        setNotificationStatus({ type: 'error', message: 'Debes iniciar sesión para alquilar.' });
+        return;
+      }
+      const response = await fetch('http://localhost:8000/api/notifications', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ spaceId: id }),
+      });
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'Error al enviar la notificación');
+      }
+      setNotificationStatus({ type: 'success', message: '¡Se ha notificado al propietario!' });
+    } catch (err) {
+      setNotificationStatus({ type: 'error', message: err.message });
+    }
+  };
 
   if (loading) {
     return <div className="flex justify-center items-center min-h-screen">Cargando...</div>;
@@ -71,6 +98,19 @@ const SpaceDetails = () => {
         <p className="mb-2"><span className="font-semibold">Descripción:</span> {space.description}</p>
         <p className="mb-2"><span className="font-semibold">Propietario:</span> {space.owner?.username || 'Desconocido'}</p>
         <p className="mb-2"><span className="font-semibold">Creado el:</span> {space.createdAt ? new Date(space.createdAt).toLocaleString() : ''}</p>
+        <div className="flex justify-end mt-6">
+          <button
+            className="px-6 py-2 bg-indigo-600 text-white rounded-lg font-semibold shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition"
+            onClick={handleRent}
+          >
+            Alquilar
+          </button>
+        </div>
+        {notificationStatus && (
+          <div className={`mt-4 p-3 rounded text-sm ${notificationStatus.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-700'}`}>
+            {notificationStatus.message}
+          </div>
+        )}
       </div>
     </div>
   );
