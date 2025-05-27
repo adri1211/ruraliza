@@ -6,6 +6,8 @@ use App\Repository\SpaceRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: SpaceRepository::class)]
 class Space
@@ -49,10 +51,14 @@ class Space
     #[Groups(['space:read'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\OneToMany(mappedBy: 'space', targetEntity: Favorite::class, orphanRemoval: true)]
+    private Collection $favorites;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
+        $this->favorites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -140,5 +146,10 @@ class Space
     {
         $this->updatedAt = $updatedAt;
         return $this;
+    }
+
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
     }
 } 

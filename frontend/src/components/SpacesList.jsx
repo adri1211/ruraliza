@@ -7,6 +7,7 @@ const SpacesList = () => {
     const [spaces, setSpaces] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [favorites, setFavorites] = useState([]);
     const { user } = useAuth();
 
     const fetchSpaces = async () => {
@@ -44,8 +45,66 @@ const SpacesList = () => {
         }
     };
 
+    const toggleFavorite = async (spaceId) => {
+        if (!user) {
+            // Si el usuario no está autenticado, podríamos mostrar un mensaje o redirigir al login
+            return;
+        }
+
+        try {
+            const token = Cookies.get('jwt_token');
+            const isFavorite = favorites.includes(spaceId);
+            const method = isFavorite ? 'DELETE' : 'POST';
+            
+            const response = await fetch(`http://localhost:8000/api/favorites/${spaceId}`, {
+                method,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al actualizar favoritos');
+            }
+
+            setFavorites(prev => 
+                isFavorite 
+                    ? prev.filter(id => id !== spaceId)
+                    : [...prev, spaceId]
+            );
+        } catch (err) {
+            console.error('Error al actualizar favoritos:', err);
+        }
+    };
+
+    // Función para cargar los favoritos del usuario
+    const fetchFavorites = async () => {
+        if (!user) return;
+        
+        try {
+            const token = Cookies.get('jwt_token');
+            const response = await fetch('http://localhost:8000/api/favorites', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al obtener favoritos');
+            }
+
+            const data = await response.json();
+            setFavorites(data.map(fav => fav.space_id));
+        } catch (err) {
+            console.error('Error al cargar favoritos:', err);
+        }
+    };
+
     useEffect(() => {
         fetchSpaces();
+        fetchFavorites();
     }, [user]);
 
     if (loading) {
@@ -124,7 +183,31 @@ const SpacesList = () => {
                                         </svg>
                                     </div>
                                 )}
-                                <div className="absolute top-0 right-0 mt-2 mr-2">
+                                <div className="absolute top-0 right-0 mt-2 mr-2 flex space-x-2">
+                                    <button
+                                        onClick={() => toggleFavorite(space.id)}
+                                        className={`transition-colors duration-200 focus:outline-none ${
+                                            favorites.includes(space.id)
+                                                ? 'text-red-500 hover:text-red-600'
+                                                : 'text-gray-400 hover:text-red-500'
+                                        }`}
+                                        title={favorites.includes(space.id) ? "Quitar de favoritos" : "Añadir a favoritos"}
+                                        style={{ background: 'none', border: 'none', padding: 0 }}
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 20 20"
+                                            fill={favorites.includes(space.id) ? "currentColor" : "none"}
+                                            stroke="currentColor"
+                                            className="w-5 h-5"
+                                        >
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                    </button>
                                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
                                         {space.category}
                                     </span>
