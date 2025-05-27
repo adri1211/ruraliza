@@ -13,6 +13,7 @@ import { useAuth } from '../hooks/useAuth';
 import { Navigate } from "react-router-dom";
 import SpaceDetails from '../pages/SpaceDetails';
 import Notifications from '../pages/Notifications';
+import Favorites from '../pages/Favorites';
 
 // Componente para proteger rutas de administrador
 const AdminRoute = ({ children }) => {
@@ -90,6 +91,14 @@ export const router = createBrowserRouter([
                 element: (
                     <ProtectedRoute>
                         <Notifications />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: "favoritos",
+                element: (
+                    <ProtectedRoute>
+                        <Favorites />
                     </ProtectedRoute>
                 ),
             },
