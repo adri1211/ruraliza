@@ -20,10 +20,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['space:read', 'notification:read', 'chat:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
-    #[Groups(['space:read'])]
+    #[Groups(['space:read', 'notification:read', 'chat:read'])]
     private ?string $username = null;
 
     #[ORM\Column(length: 180, unique: true)]
@@ -40,7 +41,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['space:read'])]
+    #[Groups(['space:read', 'notification:read', 'chat:read'])]
     private ?string $fullName = null;
 
     #[ORM\Column]

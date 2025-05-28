@@ -93,6 +93,14 @@ const Navbar = () => {
                         >
                           Mis Espacios
                         </Link>
+                        <Link
+                          to="/chats"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          role="menuitem"
+                          onClick={() => setIsDropdownOpen(false)}
+                        >
+                          Mis Chats
+                        </Link>
                         {isAdmin && (
                           <Link
                             to="/admin"
@@ -155,6 +163,13 @@ const Navbar = () => {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Mis Espacios
+                </Link>
+                <Link 
+                  to="/chats" 
+                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 transition duration-150"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Mis Chats
                 </Link>
               </>
             )}

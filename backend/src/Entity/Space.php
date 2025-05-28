@@ -15,40 +15,40 @@ class Space
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['space:read'])]
+    #[Groups(['space:read', 'notification:read', 'chat:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['space:read', 'space:write'])]
+    #[Groups(['space:read', 'space:write', 'chat:read'])]
     private ?string $location = null;
 
     #[ORM\Column]
-    #[Groups(['space:read', 'space:write'])]
+    #[Groups(['space:read', 'space:write', 'chat:read'])]
     private ?float $price = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['space:read', 'space:write'])]
+    #[Groups(['space:read', 'space:write', 'chat:read'])]
     private ?string $description = null;
 
     #[ORM\Column(length: 50)]
-    #[Groups(['space:read', 'space:write'])]
+    #[Groups(['space:read', 'space:write', 'chat:read'])]
     private ?string $category = null;
 
     #[ORM\Column(type: 'json', nullable: true)]
-    #[Groups(['space:read', 'space:write'])]
+    #[Groups(['space:read', 'space:write', 'chat:read'])]
     private array $images = [];
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'spaces')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['space:read'])]
+    #[Groups(['space:read', 'chat:read'])]
     private ?User $owner = null;
 
     #[ORM\Column]
-    #[Groups(['space:read'])]
+    #[Groups(['space:read', 'chat:read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
-    #[Groups(['space:read'])]
+    #[Groups(['space:read', 'chat:read'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\OneToMany(mappedBy: 'space', targetEntity: Favorite::class, orphanRemoval: true)]

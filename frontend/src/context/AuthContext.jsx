@@ -30,6 +30,7 @@ export const AuthProvider = ({ children }) => {
             if (!token) {
                 setUser(null);
                 localStorage.removeItem('isAuthenticated');
+                localStorage.removeItem('user');
                 return;
             }
 
@@ -48,11 +49,13 @@ export const AuthProvider = ({ children }) => {
 
             const userData = await response.json();
             setUser(userData);
-            localStorage.setItem('isAuthenticated', 'true'); // Actualiza el estado de autenticación
+            localStorage.setItem('user', JSON.stringify(userData));
+            localStorage.setItem('isAuthenticated', 'true');
         } catch (error) {
             console.error('Error fetching user:', error);
             Cookies.remove('jwt_token');
             localStorage.removeItem('isAuthenticated');
+            localStorage.removeItem('user');
             setUser(null);
         }
     };
@@ -129,7 +132,8 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         Cookies.remove('jwt_token');
-        localStorage.removeItem('isAuthenticated'); // Limpia localStorage
+        localStorage.removeItem('isAuthenticated');
+        localStorage.removeItem('user');
         setUser(null);
         setIsLoading(false);
         setError(null);
