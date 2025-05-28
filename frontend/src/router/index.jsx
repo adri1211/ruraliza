@@ -14,6 +14,8 @@ import { Navigate } from "react-router-dom";
 import SpaceDetails from '../pages/SpaceDetails';
 import Notifications from '../pages/Notifications';
 import Favorites from '../pages/Favorites';
+import Chat from '../pages/Chat';
+import Chats from '../pages/Chats';
 
 // Componente para proteger rutas de administrador
 const AdminRoute = ({ children }) => {
@@ -99,6 +101,22 @@ export const router = createBrowserRouter([
                 element: (
                     <ProtectedRoute>
                         <Favorites />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: "chat/:id",
+                element: (
+                    <ProtectedRoute>
+                        <Chat />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: "chats",
+                element: (
+                    <ProtectedRoute>
+                        <Chats />
                     </ProtectedRoute>
                 ),
             },

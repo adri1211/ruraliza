@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import Cookies from 'js-cookie';
+import useFilters from '../hooks/useFilters';
 
 const SpacesList = () => {
     const [spaces, setSpaces] = useState([]);
@@ -9,6 +10,7 @@ const SpacesList = () => {
     const [error, setError] = useState(null);
     const [favorites, setFavorites] = useState([]);
     const { user } = useAuth();
+    const { filters } = useFilters();
 
     const fetchSpaces = async () => {
         try {
@@ -107,6 +109,25 @@ const SpacesList = () => {
         fetchFavorites();
     }, [user]);
 
+    // Aplicar filtros del contexto
+    const filteredSpaces = spaces.filter(space => {
+        // Filtro de búsqueda por ubicación, descripción, etc.
+        const searchText = filters.search.toLowerCase();
+        const matchesSearch =
+            !searchText ||
+            (space.location && space.location.toLowerCase().includes(searchText)) ||
+            (space.description && space.description.toLowerCase().includes(searchText));
+
+        // Filtro de precio mínimo
+        const matchesMinPrice = !filters.minPrice || space.price >= Number(filters.minPrice);
+        // Filtro de precio máximo
+        const matchesMaxPrice = !filters.maxPrice || space.price <= Number(filters.maxPrice);
+        // Filtro de categoría
+        const matchesCategory = !filters.category || space.category === filters.category;
+
+        return matchesSearch && matchesMinPrice && matchesMaxPrice && matchesCategory;
+    });
+
     if (loading) {
         return (
             <div className="flex justify-center items-center min-h-screen">
@@ -152,7 +173,7 @@ const SpacesList = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <h1 className="text-2xl font-bold text-gray-900 mb-6">Espacios Disponibles</h1>
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {spaces.map((space) => {
+                {filteredSpaces.map((space) => {
                     // Log para depuración
                     console.log('Imágenes del espacio', space.id, space.images);
                     let imageUrl = '';

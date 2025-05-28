@@ -53,6 +53,7 @@ class NotificationController extends AbstractController
         }
         $notification = new Notification();
         $notification->setRecipient($recipient);
+        $notification->setSender($sender);
         $notification->setSpace($space);
         $notification->setMessage('El usuario ' . $sender->getUsername() . ' quiere alquilar tu espacio "' . $space->getLocation() . '".');
         $this->entityManager->persist($notification);

@@ -24,6 +24,11 @@ class Notification
     #[Groups(['notification:read'])]
     private ?User $recipient = null;
 
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['notification:read'])]
+    private ?User $sender = null;
+
     #[ORM\ManyToOne(targetEntity: Space::class)]
     #[ORM\JoinColumn(nullable: true)]
     #[Groups(['notification:read'])]
@@ -67,6 +72,17 @@ class Notification
     public function setRecipient(?User $recipient): self
     {
         $this->recipient = $recipient;
+        return $this;
+    }
+
+    public function getSender(): ?User
+    {
+        return $this->sender;
+    }
+
+    public function setSender(?User $sender): self
+    {
+        $this->sender = $sender;
         return $this;
     }
 
