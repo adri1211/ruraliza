@@ -21,7 +21,7 @@ class StripeController extends AbstractController
     #[Route('/api/stripe/create-checkout-session', name: 'create_checkout_session', methods: ['POST'])]
     public function createCheckoutSession(Request $request): JsonResponse
     {
-        \Stripe\Stripe::setApiKey('sk_test_51RMSlrPfJNBJHVdcXSFg7XvoAuRrPyy3UCdTrSYV27YaSml44k48k9UjijbmsuP16I93peFBWf7jHkE4Oze3u9CD00MCvSkuIp'); 
+        \Stripe\Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
 
         $data = json_decode($request->getContent(), true);
 
