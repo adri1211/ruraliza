@@ -5,43 +5,43 @@ const FiltersBar = () => {
   const { filters, updateFilter, resetFilters } = useFilters();
 
   return (
-    <div className="flex flex-wrap gap-4 items-end mb-6 bg-white p-4 rounded shadow">
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'flex-end', marginBottom: '1.5rem', background: '#F5F1D7', padding: '1rem', borderRadius: '0.5rem', boxShadow: '0 1px 4px rgba(160,184,139,0.08)' }}>
       <div>
-        <label className="block text-sm font-medium text-gray-700">Buscar</label>
+        <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, color: '#A0B88B' }}>Buscar</label>
         <input
           type="text"
           value={filters.search}
           onChange={e => updateFilter('search', e.target.value)}
           placeholder="Ubicación, descripción..."
-          className="mt-1 block w-full border border-gray-300 rounded px-3 py-2"
+          style={{ marginTop: '0.25rem', width: '100%', border: '1px solid #A0B88B', borderRadius: '0.375rem', padding: '0.5rem 0.75rem', color: '#A0B88B', background: '#F5F1D7' }}
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">Precio mínimo</label>
+        <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, color: '#A0B88B' }}>Precio mínimo</label>
         <input
           type="number"
           value={filters.minPrice}
           onChange={e => updateFilter('minPrice', e.target.value)}
           placeholder="Mínimo"
-          className="mt-1 block w-full border border-gray-300 rounded px-3 py-2"
+          style={{ marginTop: '0.25rem', width: '100%', border: '1px solid #A0B88B', borderRadius: '0.375rem', padding: '0.5rem 0.75rem', color: '#A0B88B', background: '#F5F1D7' }}
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">Precio máximo</label>
+        <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, color: '#A0B88B' }}>Precio máximo</label>
         <input
           type="number"
           value={filters.maxPrice}
           onChange={e => updateFilter('maxPrice', e.target.value)}
           placeholder="Máximo"
-          className="mt-1 block w-full border border-gray-300 rounded px-3 py-2"
+          style={{ marginTop: '0.25rem', width: '100%', border: '1px solid #A0B88B', borderRadius: '0.375rem', padding: '0.5rem 0.75rem', color: '#A0B88B', background: '#F5F1D7' }}
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">Categoría</label>
+        <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, color: '#A0B88B' }}>Categoría</label>
         <select
           value={filters.category}
           onChange={e => updateFilter('category', e.target.value)}
-          className="mt-1 block w-full border border-gray-300 rounded px-3 py-2"
+          style={{ marginTop: '0.25rem', width: '100%', border: '1px solid #A0B88B', borderRadius: '0.375rem', padding: '0.5rem 0.75rem', color: '#A0B88B', background: '#F5F1D7' }}
         >
           <option value="">Todas</option>
           <option value="rural">Rural</option>
@@ -52,7 +52,7 @@ const FiltersBar = () => {
       </div>
       <button
         onClick={resetFilters}
-        className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded ml-2"
+        style={{ background: '#A0B88B', color: '#F5F1D7', padding: '0.5rem 1rem', borderRadius: '0.375rem', marginLeft: '0.5rem', border: 'none', fontWeight: 500, cursor: 'pointer' }}
       >
         Limpiar
       </button>

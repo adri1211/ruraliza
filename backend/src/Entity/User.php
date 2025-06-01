@@ -56,6 +56,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Favorite::class, orphanRemoval: true)]
     private Collection $favorites;
 
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private $isSubscribed = false;
+
     public function __construct()
     {
         $this->spaces = new ArrayCollection();
@@ -201,5 +204,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getFavorites(): Collection
     {
         return $this->favorites;
+    }
+
+    public function isSubscribed(): bool
+    {
+        return $this->isSubscribed;
+    }
+
+    public function setIsSubscribed(bool $isSubscribed): self
+    {
+        $this->isSubscribed = $isSubscribed;
+        return $this;
     }
 }

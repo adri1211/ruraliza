@@ -16,6 +16,10 @@ import Notifications from '../pages/Notifications';
 import Favorites from '../pages/Favorites';
 import Chat from '../pages/Chat';
 import Chats from '../pages/Chats';
+import SuscripcionChat from '../pages/SuscripcionChat';
+import SuscripcionExitosa from '../pages/SuscripcionExitosa';
+import SuscripcionCancelada from '../pages/SuscripcionCancelada';
+import ChatBot from '../pages/ChatBot';
 
 // Componente para proteger rutas de administrador
 const AdminRoute = ({ children }) => {
@@ -117,6 +121,26 @@ export const router = createBrowserRouter([
                 element: (
                     <ProtectedRoute>
                         <Chats />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: "suscripcion-chat",
+                element: <SuscripcionChat />,
+            },
+            {
+                path: "suscripcion-exitosa",
+                element: <SuscripcionExitosa />,
+            },
+            {
+                path: "suscripcion-cancelada",
+                element: <SuscripcionCancelada />,
+            },
+            {
+                path: "chatbot",
+                element: (
+                    <ProtectedRoute>
+                        <ChatBot />
                     </ProtectedRoute>
                 ),
             },

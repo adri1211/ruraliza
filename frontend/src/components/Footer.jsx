@@ -1,39 +1,61 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+const footerColumnStyle = {
+  flex: 1,
+  minWidth: '220px',
+  textAlign: 'center',
+  margin: '0 1rem',
+};
+
 const Footer = () => {
   return (
-    <footer className="bg-white border-t border-gray-100 mt-auto">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+    <footer style={{ backgroundColor: '#F5F1D7', borderTop: '1px solid #A0B88B', marginTop: 'auto' }}>
+      <div
+        style={{
+          maxWidth: '80rem',
+          margin: '0 auto',
+          padding: '3rem 1rem',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+            gap: '2rem',
+          }}
+        >
           {/* Logo y descripción */}
-          <div className="col-span-1">
-            <Link to="/" className="text-xl font-bold text-gray-900 inline-block">
+          <div style={footerColumnStyle}>
+            <Link to="/" style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#A0B88B', display: 'inline-block' }}>
               Ruraliza
             </Link>
-            <p className="mt-3 text-sm text-gray-600 mx-auto max-w-xs">
+            <p style={{ marginTop: '0.75rem', fontSize: '0.875rem', color: '#A0B88B', marginLeft: 'auto', marginRight: 'auto', maxWidth: '20rem' }}>
               Conectamos espacios con emprendedores para que puedas montar tu negocio de forma fácil y rápida.
             </p>
           </div>
 
           {/* Recursos */}
-          <div className="col-span-1">
-            <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider">
+          <div style={footerColumnStyle}>
+            <h3 style={{ fontSize: '0.875rem', fontWeight: '600', color: '#A0B88B', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               RECURSOS
             </h3>
-            <ul className="mt-4 space-y-3">
+            <ul style={{ marginTop: '1rem', listStyle: 'none', padding: 0 }}>
               <li>
-                <Link to="/quienes-somos" className="text-sm text-gray-600 hover:text-gray-900">
+                <Link to="/quienes-somos" style={{ fontSize: '0.875rem', color: '#A0B88B' }}>
                   Quienes somos
                 </Link>
               </li>
               <li>
-                <Link to="/preguntas-frecuentes" className="text-sm text-gray-600 hover:text-gray-900">
+                <Link to="/preguntas-frecuentes" style={{ fontSize: '0.875rem', color: '#A0B88B' }}>
                   Preguntas frecuentes
                 </Link>
               </li>
               <li>
-                <Link to="/contacto" className="text-sm text-gray-600 hover:text-gray-900">
+                <Link to="/contacto" style={{ fontSize: '0.875rem', color: '#A0B88B' }}>
                   Contacto
                 </Link>
               </li>
@@ -41,18 +63,18 @@ const Footer = () => {
           </div>
 
           {/* Legal */}
-          <div className="col-span-1">
-            <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wider">
+          <div style={footerColumnStyle}>
+            <h3 style={{ fontSize: '0.875rem', fontWeight: '600', color: '#A0B88B', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               LEGAL
             </h3>
-            <ul className="mt-4 space-y-3">
+            <ul style={{ marginTop: '1rem', listStyle: 'none', padding: 0 }}>
               <li>
-                <Link to="/terminos-y-condiciones" className="text-sm text-gray-600 hover:text-gray-900">
+                <Link to="/terminos-y-condiciones" style={{ fontSize: '0.875rem', color: '#A0B88B' }}>
                   Términos y condiciones
                 </Link>
               </li>
               <li>
-                <Link to="/politica-de-privacidad" className="text-sm text-gray-600 hover:text-gray-900">
+                <Link to="/politica-de-privacidad" style={{ fontSize: '0.875rem', color: '#A0B88B' }}>
                   Política de privacidad
                 </Link>
               </li>
@@ -61,12 +83,22 @@ const Footer = () => {
         </div>
 
         {/* Copyright */}
-        <div className="mt-12 pt-8 border-t border-gray-200">
-          <p className="text-sm text-gray-500 text-center">
+        <div style={{ marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid #A0B88B' }}>
+          <p style={{ fontSize: '0.875rem', color: '#A0B88B', textAlign: 'center' }}>
             © {new Date().getFullYear()} Ruraliza. Todos los derechos reservados.
           </p>
         </div>
       </div>
+      {/* Responsive: columna en móvil */}
+      <style>{`
+        @media (max-width: 800px) {
+          footer > div > div {
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 1.5rem !important;
+          }
+        }
+      `}</style>
     </footer>
   );
 };

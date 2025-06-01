@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import Cookies from 'js-cookie';
 import './AdminPanel.css';
 
 const AdminPanel = () => {
@@ -23,7 +22,7 @@ const AdminPanel = () => {
 
     const fetchUsers = async () => {
         try {
-            const token = Cookies.get('jwt_token');
+            const token = localStorage.getItem('jwt_token');
             const response = await fetch('http://127.0.0.1:8000/api/admin/users', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -40,7 +39,7 @@ const AdminPanel = () => {
 
     const fetchSpaces = async () => {
         try {
-            const token = Cookies.get('jwt_token');
+            const token = localStorage.getItem('jwt_token');
             const response = await fetch('http://127.0.0.1:8000/api/admin/spaces', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -65,7 +64,7 @@ const AdminPanel = () => {
         if (!window.confirm('¿Estás seguro de que quieres eliminar este elemento?')) return;
 
         try {
-            const token = Cookies.get('jwt_token');
+            const token = localStorage.getItem('jwt_token');
             const response = await fetch(`http://127.0.0.1:8000/api/admin/${type}/${id}`, {
                 method: 'DELETE',
                 headers: {
@@ -90,7 +89,7 @@ const AdminPanel = () => {
 
     const handleSave = async () => {
         try {
-            const token = Cookies.get('jwt_token');
+            const token = localStorage.getItem('jwt_token');
             const { type, id } = selectedItem;
             const response = await fetch(`http://127.0.0.1:8000/api/admin/${type}/${id}`, {
                 method: 'PUT',

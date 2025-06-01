@@ -144,7 +144,8 @@ public function login(
             'email' => $user->getEmail(),
             'username' => $user->getUsername(),
             'fullName' => $user->getFullName(),
-            'roles' => $user->getRoles()
+            'roles' => $user->getRoles(),
+            'isSubscribed' => $user->isSubscribed(),
         ]);
     }
 }

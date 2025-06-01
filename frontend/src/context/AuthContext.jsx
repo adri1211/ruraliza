@@ -1,5 +1,4 @@
 import { createContext, useState, useEffect } from "react";
-import Cookies from 'js-cookie';
 
 export const AuthContext = createContext();
 
@@ -10,7 +9,7 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const checkAuth = async () => {
-            const token = Cookies.get('jwt_token');
+            const token = localStorage.getItem('jwt_token');
             const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
 
             if (token && isAuthenticated) {
@@ -26,7 +25,7 @@ export const AuthProvider = ({ children }) => {
 
     const getUser = async () => {
         try {
-            const token = Cookies.get('jwt_token');
+            const token = localStorage.getItem('jwt_token');
             if (!token) {
                 setUser(null);
                 localStorage.removeItem('isAuthenticated');
@@ -53,7 +52,7 @@ export const AuthProvider = ({ children }) => {
             localStorage.setItem('isAuthenticated', 'true');
         } catch (error) {
             console.error('Error fetching user:', error);
-            Cookies.remove('jwt_token');
+            localStorage.removeItem('jwt_token');
             localStorage.removeItem('isAuthenticated');
             localStorage.removeItem('user');
             setUser(null);
@@ -83,8 +82,8 @@ export const AuthProvider = ({ children }) => {
             }
 
             if (data.token) {
-                Cookies.set('jwt_token', data.token.trim());
-                localStorage.setItem('isAuthenticated', 'true'); // Marca como autenticado
+                localStorage.setItem('jwt_token', data.token.trim());
+                localStorage.setItem('isAuthenticated', 'true');
                 await getUser();
                 return true;
             } else {
@@ -131,7 +130,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = () => {
-        Cookies.remove('jwt_token');
+        localStorage.removeItem('jwt_token');
         localStorage.removeItem('isAuthenticated');
         localStorage.removeItem('user');
         setUser(null);

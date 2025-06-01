@@ -1,9 +1,9 @@
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie'; // Eliminar esta línea
 
 const API_URL = 'http://localhost:8000/api';
 
 const getAuthHeaders = () => {
-    const token = Cookies.get('jwt_token');
+    const token = localStorage.getItem('jwt_token');
     return {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',

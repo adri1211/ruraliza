@@ -3,13 +3,13 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  background-color: white;
+  background-color: #F5F1D7;
 }
 
 .hero-section {
   text-align: center;
   padding: 80px 20px;
-  background-color: #f7f9ff;
+  background-color: #F5F1D7;
   border-radius: 0;
   margin: 0 -20px;
 }
@@ -17,7 +17,7 @@
 .hero-section h1 {
   font-size: 2.8rem;
   font-weight: 800;
-  color: #1f2937;
+  color: #A0B88B;
   margin-bottom: 24px;
   max-width: 800px;
   margin-left: auto;
@@ -27,7 +27,7 @@
 
 .hero-section p {
   font-size: 1.25rem;
-  color: #4b5563;
+  color: #A0B88B;
   margin-bottom: 40px;
   max-width: 700px;
   margin-left: auto;
@@ -44,9 +44,9 @@
 
 .btn-outline {
   padding: 12px 24px;
-  border: 1px solid #4f46e5;
+  border: 1.5px solid #A0B88B;
   border-radius: 6px;
-  color: #4f46e5;
+  color: #A0B88B;
   font-weight: 600;
   font-size: 1rem;
   background: transparent;
@@ -55,16 +55,16 @@
 }
 
 .btn-outline:hover {
-  background: #4f46e5;
-  color: white;
+  background: #A0B88B;
+  color: #F5F1D7;
 }
 
 .btn-primary {
   padding: 12px 24px;
-  background: #4f46e5;
+  background: #A0B88B;
   border: none;
   border-radius: 6px;
-  color: white;
+  color: #F5F1D7;
   font-weight: 600;
   font-size: 1rem;
   transition: all 0.2s ease;
@@ -72,18 +72,19 @@
 }
 
 .btn-primary:hover {
-  background: #4338ca;
+  background: #8CA97A;
 }
 
 .how-it-works {
   padding: 80px 0;
+  background: #F5F1D7;
 }
 
 .how-it-works h2 {
   text-align: center;
   font-size: 2.25rem;
   font-weight: 800;
-  color: #1f2937;
+  color: #A0B88B;
   margin-bottom: 64px;
 }
 
@@ -95,17 +96,17 @@
 }
 
 .feature-card {
-  background: white;
+  background: #F5F1D7;
   padding: 32px;
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px rgba(160, 184, 139, 0.08);
+  border: 1.5px solid #A0B88B;
 }
 
 .icon-container {
   width: 48px;
   height: 48px;
-  background: #f3f4f6;
+  background: #A0B88B22;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -115,18 +116,18 @@
 
 .icon-container i {
   font-size: 20px;
-  color: #4f46e5;
+  color: #A0B88B;
 }
 
 .feature-card h3 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1f2937;
+  color: #A0B88B;
   margin-bottom: 16px;
 }
 
 .feature-card p {
-  color: #4b5563;
+  color: #A0B88B;
   margin-bottom: 24px;
   line-height: 1.6;
 }
@@ -143,15 +144,15 @@
   margin-bottom: 16px;
   display: flex;
   align-items: flex-start;
-  color: #374151;
+  color: #A0B88B;
   line-height: 1.5;
 }
 
 .feature-card ol li::before {
   content: counter(item);
-  background: #f3f4f6;
+  background: #A0B88B22;
   border-radius: 50%;
-  color: #4f46e5;
+  color: #A0B88B;
   width: 24px;
   height: 24px;
   display: flex;

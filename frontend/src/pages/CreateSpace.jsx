@@ -63,7 +63,7 @@ const CreateSpace = () => {
         formDataToSend.append('images[]', image);
       });
 
-      const token = Cookies.get('jwt_token');
+      const token = localStorage.getItem('jwt_token');
       const response = await fetch('http://localhost:8000/api/spaces', {
         method: 'POST',
         headers: {

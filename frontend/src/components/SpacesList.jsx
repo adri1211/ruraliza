@@ -15,7 +15,7 @@ const SpacesList = () => {
     const fetchSpaces = async () => {
         try {
             setLoading(true);
-            const token = Cookies.get('jwt_token');
+            const token = localStorage.getItem('jwt_token');
             const headers = {
                 'Content-Type': 'application/json'
             };
@@ -54,7 +54,7 @@ const SpacesList = () => {
         }
 
         try {
-            const token = Cookies.get('jwt_token');
+            const token = localStorage.getItem('jwt_token');
             const isFavorite = favorites.includes(spaceId);
             const method = isFavorite ? 'DELETE' : 'POST';
             
@@ -85,7 +85,7 @@ const SpacesList = () => {
         if (!user) return;
         
         try {
-            const token = Cookies.get('jwt_token');
+            const token = localStorage.getItem('jwt_token');
             const response = await fetch('http://localhost:8000/api/favorites', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -170,15 +170,12 @@ const SpacesList = () => {
     }
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <h1 className="text-2xl font-bold text-gray-900 mb-6">Espacios Disponibles</h1>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div style={{ maxWidth: '90rem', margin: '0 auto', padding: '2rem 1rem' }}>
+            <h1 style={{ fontSize: '2rem', fontWeight: 'bold', color: '#A0B88B', marginBottom: '1.5rem' }}>Espacios Disponibles</h1>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>
                 {filteredSpaces.map((space) => {
-                    // Log para depuración
-                    console.log('Imágenes del espacio', space.id, space.images);
                     let imageUrl = '';
                     if (space.images && space.images.length > 0) {
-                        // Si la imagen es una URL absoluta, úsala tal cual
                         if (space.images[0].startsWith('http')) {
                             imageUrl = space.images[0];
                         } else {
@@ -188,39 +185,43 @@ const SpacesList = () => {
                     return (
                         <div
                             key={space.id}
-                            className="bg-white overflow-hidden shadow rounded-lg transition duration-300 hover:shadow-lg"
+                            style={{
+                                background: '#F5F1D7',
+                                overflow: 'hidden',
+                                boxShadow: '0 4px 12px rgba(160,184,139,0.10)',
+                                borderRadius: '16px',
+                                border: '1.5px solid #A0B88B',
+                                transition: 'box-shadow 0.3s',
+                                display: 'flex',
+                                flexDirection: 'column',
+                            }}
                         >
-                            <div className="relative h-48">
+                            <div style={{ position: 'relative', height: '190px', background: '#A0B88B22' }}>
                                 {imageUrl ? (
                                     <img
                                         src={imageUrl}
                                         alt={space.location}
-                                        className="w-full h-full object-cover"
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                     />
                                 ) : (
-                                    <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                                        <svg className="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <div style={{ width: '100%', height: '100%', background: '#A0B88B22', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                        <svg style={{ height: '48px', width: '48px', color: '#A0B88B' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                         </svg>
                                     </div>
                                 )}
-                                <div className="absolute top-0 right-0 mt-2 mr-2 flex space-x-2">
+                                <div style={{ position: 'absolute', top: 10, right: 10, display: 'flex', gap: '0.5rem' }}>
                                     <button
                                         onClick={() => toggleFavorite(space.id)}
-                                        className={`transition-colors duration-200 focus:outline-none ${
-                                            favorites.includes(space.id)
-                                                ? 'text-red-500 hover:text-red-600'
-                                                : 'text-gray-400 hover:text-red-500'
-                                        }`}
                                         title={favorites.includes(space.id) ? "Quitar de favoritos" : "Añadir a favoritos"}
-                                        style={{ background: 'none', border: 'none', padding: 0 }}
+                                        style={{ background: 'none', border: 'none', padding: 0, color: favorites.includes(space.id) ? '#A0B88B' : '#A0B88B88', cursor: 'pointer', transition: 'color 0.2s' }}
                                     >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 20 20"
-                                            fill={favorites.includes(space.id) ? "currentColor" : "none"}
-                                            stroke="currentColor"
-                                            className="w-5 h-5"
+                                            fill={favorites.includes(space.id) ? '#A0B88B' : 'none'}
+                                            stroke="#A0B88B"
+                                            style={{ width: '22px', height: '22px' }}
                                         >
                                             <path
                                                 fillRule="evenodd"
@@ -229,19 +230,21 @@ const SpacesList = () => {
                                             />
                                         </svg>
                                     </button>
-                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                                    <span style={{ display: 'inline-flex', alignItems: 'center', padding: '0.25rem 0.75rem', borderRadius: '999px', fontSize: '0.85rem', fontWeight: 600, background: '#A0B88B22', color: '#A0B88B' }}>
                                         {space.category}
                                     </span>
                                 </div>
                             </div>
-                            <div className="p-6">
-                                <h3 className="text-lg font-medium text-gray-900">{space.location}</h3>
-                                <p className="mt-2 text-sm text-gray-500 line-clamp-2">{space.description}</p>
-                                <div className="mt-4 flex justify-between items-center">
-                                    <span className="text-lg font-bold text-indigo-600">{space.price}€/mes</span>
+                            <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                                <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#A0B88B', marginBottom: '0.5rem' }}>{space.location}</h3>
+                                <p style={{ margin: 0, fontSize: '1rem', color: '#A0B88B', opacity: 0.85, marginBottom: '1.2rem', minHeight: '2.2em' }}>{space.description}</p>
+                                <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <span style={{ fontSize: '1.1rem', fontWeight: 700, color: '#A0B88B' }}>{space.price}€/mes</span>
                                     <Link
                                         to={`/espacios/${space.id}`}
-                                        className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                        style={{ padding: '0.5rem 1.2rem', border: '1.5px solid #A0B88B', borderRadius: '0.5rem', color: '#A0B88B', background: 'transparent', fontWeight: 600, fontSize: '1rem', textDecoration: 'none', transition: 'all 0.2s', marginLeft: '0.5rem' }}
+                                        onMouseOver={e => { e.target.style.background = '#A0B88B'; e.target.style.color = '#F5F1D7'; }}
+                                        onMouseOut={e => { e.target.style.background = 'transparent'; e.target.style.color = '#A0B88B'; }}
                                     >
                                         Ver detalles
                                     </Link>

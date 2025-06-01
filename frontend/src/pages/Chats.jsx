@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
 
 const Chats = () => {
   const [chats, setChats] = useState([]);
@@ -11,7 +10,7 @@ const Chats = () => {
   useEffect(() => {
     const fetchChats = async () => {
       try {
-        const token = Cookies.get('jwt_token');
+        const token = localStorage.getItem('jwt_token');
         const response = await fetch('http://localhost:8000/api/chats', {
           headers: {
             'Authorization': `Bearer ${token}`,

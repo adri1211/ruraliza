@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
@@ -10,7 +9,7 @@ const Notifications = () => {
     setLoading(true);
     setError(null);
     try {
-      const token = Cookies.get('jwt_token');
+      const token = localStorage.getItem('jwt_token');
       const response = await fetch('http://localhost:8000/api/notifications', {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -45,7 +44,7 @@ const Notifications = () => {
 
   const markAsRead = async (id) => {
     try {
-      const token = Cookies.get('jwt_token');
+      const token = localStorage.getItem('jwt_token');
       const response = await fetch(`http://localhost:8000/api/notifications/${id}/read`, {
         method: 'PATCH',
         headers: {
@@ -62,7 +61,7 @@ const Notifications = () => {
 
   const iniciarChat = async (notification) => {
     try {
-      const token = Cookies.get('jwt_token');
+      const token = localStorage.getItem('jwt_token');
       
       // Mostrar la estructura completa de la notificación
       console.log('Estructura completa de la notificación:', JSON.stringify(notification, null, 2));

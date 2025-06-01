@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Cookies from 'js-cookie';
 
 const UserSpaces = () => {
     const [spaces, setSpaces] = useState([]);
@@ -10,7 +9,7 @@ const UserSpaces = () => {
     const fetchUserSpaces = async () => {
         try {
             setLoading(true);
-            const token = Cookies.get('jwt_token');
+            const token = localStorage.getItem('jwt_token');
             const response = await fetch('http://localhost:8000/api/spaces/user/spaces', {
                 method: 'GET',
                 headers: {

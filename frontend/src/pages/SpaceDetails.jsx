@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import Cookies from 'js-cookie';
 
 const SpaceDetails = () => {
   const { id } = useParams();
@@ -13,7 +12,7 @@ const SpaceDetails = () => {
     const fetchSpace = async () => {
       try {
         setLoading(true);
-        const token = Cookies.get('jwt_token');
+        const token = localStorage.getItem('jwt_token');
         const response = await fetch(`http://localhost:8000/api/spaces/${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -35,7 +34,7 @@ const SpaceDetails = () => {
   const handleRent = async () => {
     setNotificationStatus(null);
     try {
-      const token = Cookies.get('jwt_token');
+      const token = localStorage.getItem('jwt_token');
       if (!token) {
         setNotificationStatus({ type: 'error', message: 'Debes iniciar sesión para alquilar.' });
         return;

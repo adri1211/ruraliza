@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
+// import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
 
 const FavoritesList = () => {
@@ -11,7 +11,7 @@ const FavoritesList = () => {
         const fetchFavorites = async () => {
             try {
                 setLoading(true);
-                const token = Cookies.get('jwt_token');
+                const token = localStorage.getItem('jwt_token');
                 const response = await fetch('http://localhost:8000/api/favorites', {
                     headers: {
                         'Authorization': `Bearer ${token}`,

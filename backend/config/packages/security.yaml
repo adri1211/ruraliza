@@ -26,14 +26,16 @@ security:
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
     access_control:
+        - { path: ^/api/chat-openai, roles: PUBLIC_ACCESS }
+        - { path: ^/api/stripe/webhook, roles: PUBLIC_ACCESS }
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
         - { path: ^/api/register, roles: PUBLIC_ACCESS }
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api/user, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api/admin, roles: ROLE_ADMIN }
         - { path: ^/api/flights$, roles: ROLE_USER, methods: [GET] }
         - { path: ^/api/flights/search, roles: ROLE_USER }
         - { path: ^/api/flights, roles: ROLE_ADMIN, methods: [POST, PUT, DELETE] }
-        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
         # - { path: ^/api/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 

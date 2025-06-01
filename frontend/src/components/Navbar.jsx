@@ -25,42 +25,41 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex items-center">
-            <Link to="/" className="flex-shrink-0 flex items-center">
-              <span className="text-xl font-bold text-gray-900">Ruraliza</span>
+    <nav style={{ backgroundColor: '#F5F1D7', borderBottom: '1px solid #A0B88B' }}>
+      <div style={{ maxWidth: '90rem', margin: '0 auto', padding: '0 1rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', height: '4rem', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Link to="/" style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#A0B88B', textDecoration: 'none' }}>
+              Ruraliza
             </Link>
             <button
               onClick={toggleMenu}
-              className="ml-4 inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-100 focus:outline-none md:hidden"
+              style={{ marginLeft: '1rem', padding: '0.5rem', borderRadius: '0.375rem', color: '#A0B88B', background: 'transparent', border: 'none', cursor: 'pointer' }}
             >
               {isMenuOpen ? (
-                <FaTimes className="h-6 w-6" />
+                <FaTimes style={{ height: '1.5rem', width: '1.5rem' }} />
               ) : (
-                <FaBars className="h-6 w-6" />
+                <FaBars style={{ height: '1.5rem', width: '1.5rem' }} />
               )}
             </button>
           </div>
-          
-          <div className="hidden md:flex md:items-center md:space-x-6">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
             {user ? (
               <>
                 <Link
                   to="/notificaciones"
-                  className="text-gray-700 hover:text-indigo-600 font-medium text-sm relative"
+                  style={{ color: '#A0B88B', fontWeight: 500, fontSize: '1rem', textDecoration: 'none' }}
                 >
                   Notificaciones
                 </Link>
-                <div className="relative">
+                <div style={{ position: 'relative' }}>
                   <button
                     onClick={toggleDropdown}
-                    className="flex items-center space-x-1 text-gray-700 hover:text-gray-900 focus:outline-none"
+                    style={{ display: 'flex', alignItems: 'center', color: '#A0B88B', background: 'transparent', border: 'none', cursor: 'pointer' }}
                   >
-                    <span className="text-sm">{user.fullName || user.email}</span>
+                    <span style={{ fontSize: '1rem' }}>{user.fullName || user.email}</span>
                     <svg
-                      className={`h-5 w-5 transform transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`}
+                      style={{ height: '1.25rem', width: '1.25rem', marginLeft: '0.25rem', transition: 'transform 0.2s', transform: isDropdownOpen ? 'rotate(180deg)' : 'none', color: '#A0B88B' }}
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 20 20"
                       fill="currentColor"
@@ -72,31 +71,26 @@ const Navbar = () => {
                       />
                     </svg>
                   </button>
-                  
-                  {/* Menú desplegable */}
                   {isDropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                      <div className="py-1" role="menu">
+                    <div style={{ position: 'absolute', right: 0, marginTop: '0.5rem', width: '12rem', borderRadius: '0.5rem', boxShadow: '0 2px 8px rgba(0,0,0,0.08)', background: '#F5F1D7', border: '1px solid #A0B88B', zIndex: 10 }}>
+                      <div style={{ padding: '0.5rem 0' }}>
                         <Link
                           to="/favoritos"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                          role="menuitem"
+                          style={{ display: 'block', padding: '0.5rem 1rem', color: '#A0B88B', textDecoration: 'none' }}
                           onClick={() => setIsDropdownOpen(false)}
                         >
                           Favoritos
                         </Link>
                         <Link
                           to="/mis-espacios"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                          role="menuitem"
+                          style={{ display: 'block', padding: '0.5rem 1rem', color: '#A0B88B', textDecoration: 'none' }}
                           onClick={() => setIsDropdownOpen(false)}
                         >
                           Mis Espacios
                         </Link>
                         <Link
                           to="/chats"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                          role="menuitem"
+                          style={{ display: 'block', padding: '0.5rem 1rem', color: '#A0B88B', textDecoration: 'none' }}
                           onClick={() => setIsDropdownOpen(false)}
                         >
                           Mis Chats
@@ -104,8 +98,7 @@ const Navbar = () => {
                         {isAdmin && (
                           <Link
                             to="/admin"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                            role="menuitem"
+                            style={{ display: 'block', padding: '0.5rem 1rem', color: '#A0B88B', textDecoration: 'none' }}
                             onClick={() => setIsDropdownOpen(false)}
                           >
                             Panel de Admin
@@ -116,8 +109,7 @@ const Navbar = () => {
                             handleLogout();
                             setIsDropdownOpen(false);
                           }}
-                          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                          role="menuitem"
+                          style={{ display: 'block', width: '100%', textAlign: 'left', padding: '0.5rem 1rem', color: '#A0B88B', background: 'transparent', border: 'none', cursor: 'pointer' }}
                         >
                           Cerrar Sesión
                         </button>
@@ -130,13 +122,13 @@ const Navbar = () => {
               <>
                 <Link 
                   to="/login" 
-                  className="text-gray-700 hover:text-gray-900 font-medium text-sm"
+                  style={{ color: '#A0B88B', fontWeight: 500, fontSize: '1rem', textDecoration: 'none' }}
                 >
                   Iniciar Sesión
                 </Link>
                 <Link 
                   to="/register" 
-                  className="py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md transition duration-150 ease-in-out font-medium text-sm"
+                  style={{ padding: '0.5rem 1rem', background: '#A0B88B', color: '#F5F1D7', borderRadius: '0.375rem', fontWeight: 500, fontSize: '1rem', textDecoration: 'none', marginLeft: '0.5rem' }}
                 >
                   Registrarse
                 </Link>
