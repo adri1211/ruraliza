@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { FaBars, FaTimes } from 'react-icons/fa';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -24,13 +25,18 @@ const Navbar = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  // Fondo transparente solo en la home
+  const navbarStyle = location.pathname === '/'
+    ? { backgroundColor: 'transparent' }
+    : { backgroundColor: '#F5F1D7', borderBottom: '1px solid #A0B88B' };
+
   return (
-    <nav style={{ backgroundColor: '#F5F1D7', borderBottom: '1px solid #A0B88B' }}>
+    <nav style={navbarStyle}>
       <div style={{ maxWidth: '90rem', margin: '0 auto', padding: '0 1rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', height: '4rem', alignItems: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <Link to="/" style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#A0B88B', textDecoration: 'none' }}>
-              Ruraliza
+              Reaviva
             </Link>
             <button
               onClick={toggleMenu}

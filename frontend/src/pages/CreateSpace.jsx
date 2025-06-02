@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+// import { useAuth } from '../hooks/useAuth';
 import Cookies from 'js-cookie';
 
 const CreateSpace = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     location: '',
@@ -39,13 +38,17 @@ const CreateSpace = () => {
       images: [...prev.images, ...files]
     }));
 
-    // Crear previsualizaciones
+    // Crear previsualizaciones solo para imágenes
     files.forEach(file => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewImages(prev => [...prev, reader.result]);
-      };
-      reader.readAsDataURL(file);
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPreviewImages(prev => [...prev, { type: 'image', src: reader.result, name: file.name }]);
+        };
+        reader.readAsDataURL(file);
+      } else if (file.type === 'application/pdf') {
+        setPreviewImages(prev => [...prev, { type: 'pdf', name: file.name }]);
+      }
     });
   };
 
@@ -187,7 +190,7 @@ const CreateSpace = () => {
             {/* Imágenes */}
             <div className="space-y-2">
               <label className="block text-sm font-semibold text-gray-700">
-                Fotos
+                Fotos y documentos (PDF)
               </label>
               <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-indigo-500 transition duration-150">
                 <div className="space-y-2 text-center">
@@ -210,13 +213,13 @@ const CreateSpace = () => {
                       htmlFor="images"
                       className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
                     >
-                      <span>Sube tus fotos</span>
+                      <span>Sube tus fotos o PDFs</span>
                       <input
                         id="images"
                         name="images"
                         type="file"
                         multiple
-                        accept="image/*"
+                        accept="image/*,application/pdf"
                         onChange={handleImageChange}
                         className="sr-only"
                       />
@@ -224,22 +227,29 @@ const CreateSpace = () => {
                     <p className="pl-1">o arrastra y suelta</p>
                   </div>
                   <p className="text-xs text-gray-500">
-                    PNG, JPG, GIF hasta 10MB
+                    PNG, JPG, GIF, PDF hasta 10MB
                   </p>
                 </div>
               </div>
-              
-              {/* Previsualización de imágenes */}
+              {/* Previsualización de archivos */}
               {previewImages.length > 0 && (
                 <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                   {previewImages.map((preview, index) => (
                     <div key={index} className="relative group">
-                      <img
-                        src={preview}
-                        alt={`Preview ${index + 1}`}
-                        className="h-32 w-full object-cover rounded-lg shadow-sm group-hover:shadow-md transition duration-150"
-                      />
-                      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition duration-150 rounded-lg"></div>
+                      {preview.type === 'image' ? (
+                        <img
+                          src={preview.src}
+                          alt={preview.name}
+                          className="h-32 w-full object-cover rounded-lg shadow-sm group-hover:shadow-md transition duration-150"
+                        />
+                      ) : (
+                        <div className="flex flex-col items-center justify-center h-32 w-full bg-gray-100 rounded-lg border border-gray-300">
+                          <svg className="h-10 w-10 text-indigo-500 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                          </svg>
+                          <span className="text-xs text-gray-700">{preview.name}</span>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>

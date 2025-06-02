@@ -3,6 +3,7 @@ import { router } from './router/index'
 import { AuthProvider } from './context/AuthContext'
 import { FiltersProvider } from './context/FiltersContext'
 import ChatSubscriptionButton from './components/ChatSubscriptionButton'
+import EditSpace from './pages/EditSpace'
 
 const App = () => {
   return (

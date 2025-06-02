@@ -20,6 +20,7 @@ import SuscripcionChat from '../pages/SuscripcionChat';
 import SuscripcionExitosa from '../pages/SuscripcionExitosa';
 import SuscripcionCancelada from '../pages/SuscripcionCancelada';
 import ChatBot from '../pages/ChatBot';
+import EditSpace from '../pages/EditSpace';
 
 // Componente para proteger rutas de administrador
 const AdminRoute = ({ children }) => {
@@ -141,6 +142,14 @@ export const router = createBrowserRouter([
                 element: (
                     <ProtectedRoute>
                         <ChatBot />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: "editar-espacio/:id",
+                element: (
+                    <ProtectedRoute>
+                        <EditSpace />
                     </ProtectedRoute>
                 ),
             },

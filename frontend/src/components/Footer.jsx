@@ -31,7 +31,7 @@ const Footer = () => {
           {/* Logo y descripción */}
           <div style={footerColumnStyle}>
             <Link to="/" style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#A0B88B', display: 'inline-block' }}>
-              Ruraliza
+              Reaviva
             </Link>
             <p style={{ marginTop: '0.75rem', fontSize: '0.875rem', color: '#A0B88B', marginLeft: 'auto', marginRight: 'auto', maxWidth: '20rem' }}>
               Conectamos espacios con emprendedores para que puedas montar tu negocio de forma fácil y rápida.
@@ -85,7 +85,7 @@ const Footer = () => {
         {/* Copyright */}
         <div style={{ marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid #A0B88B' }}>
           <p style={{ fontSize: '0.875rem', color: '#A0B88B', textAlign: 'center' }}>
-            © {new Date().getFullYear()} Ruraliza. Todos los derechos reservados.
+            © {new Date().getFullYear()} Reaviva. Todos los derechos reservados.
           </p>
         </div>
       </div>

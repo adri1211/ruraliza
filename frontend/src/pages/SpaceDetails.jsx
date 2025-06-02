@@ -74,14 +74,27 @@ const SpaceDetails = () => {
       <div className="mb-6">
         {space.images && space.images.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {space.images.map((img, idx) => (
+            {space.images.map((img, idx) => (img.endsWith(".pdf") ? (
+              <a
+                key={idx}
+                href={img.startsWith("http") ? img : "http://localhost:8000/uploads/spaces/" + img}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col items-center justify-center w-full h-64 bg-gray-100 rounded shadow hover:bg-gray-200 transition"
+              >
+                <svg className="h-16 w-16 text-indigo-500 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+                <span className="text-sm font-semibold text-indigo-600">Ver PDF</span>
+              </a>
+            ) : (
               <img
                 key={idx}
-                src={img.startsWith('http') ? img : `http://localhost:8000/uploads/spaces/${img}`}
-                alt={`Imagen ${idx + 1}`}
+                src={img.startsWith("http") ? img : "http://localhost:8000/uploads/spaces/" + img}
+                alt={"Imagen " + (idx + 1)}
                 className="w-full h-64 object-cover rounded shadow"
               />
-            ))}
+            )))}
           </div>
         ) : (
           <div className="w-full h-64 bg-gray-200 flex items-center justify-center rounded">

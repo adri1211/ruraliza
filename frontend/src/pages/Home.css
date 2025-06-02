@@ -1,3 +1,7 @@
+body {
+  background: #F5F1D7;
+}
+
 .home {
   width: 100%;
   max-width: 1200px;
@@ -7,32 +11,62 @@
 }
 
 .hero-section {
+  width: 100vw;
+  max-width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
   text-align: center;
-  padding: 80px 20px;
+  padding: 48px 20px 100px 20px;
   background-color: #F5F1D7;
   border-radius: 0;
-  margin: 0 -20px;
+  overflow: hidden;
+  min-height: 480px;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(rgba(245,241,215,0.80), rgba(245,241,215,0.80)), url('/alpujarra.JPG');
+  background-size: cover;
+  background-position: center;
+  opacity: 1;
+  z-index: 0;
+  transition: opacity 0.3s;
+}
+
+.hero-section > * {
+  position: relative;
+  z-index: 1;
 }
 
 .hero-section h1 {
   font-size: 2.8rem;
   font-weight: 800;
-  color: #A0B88B;
+  color: #7b8c6a;
   margin-bottom: 24px;
-  max-width: 800px;
+  max-width: 900px;
   margin-left: auto;
   margin-right: auto;
   line-height: 1.2;
+  text-shadow: 0 4px 24px #fff, 0 2px 8px #a0b88b99;
 }
 
 .hero-section p {
   font-size: 1.25rem;
-  color: #A0B88B;
+  color: #7b8c6a;
   margin-bottom: 40px;
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
   line-height: 1.6;
+  text-shadow: 0 2px 12px #fff, 0 1px 6px #a0b88b99;
 }
 
 .cta-buttons {
@@ -49,14 +83,16 @@
   color: #A0B88B;
   font-weight: 600;
   font-size: 1rem;
-  background: transparent;
+  background: rgba(255,255,255,0.85);
   transition: all 0.2s ease;
   cursor: pointer;
+  box-shadow: 0 2px 8px #a0b88b22;
 }
 
 .btn-outline:hover {
   background: #A0B88B;
   color: #F5F1D7;
+  box-shadow: 0 4px 16px #a0b88b44;
 }
 
 .btn-primary {
@@ -69,10 +105,12 @@
   font-size: 1rem;
   transition: all 0.2s ease;
   cursor: pointer;
+  box-shadow: 0 2px 8px #a0b88b22;
 }
 
 .btn-primary:hover {
   background: #8CA97A;
+  box-shadow: 0 4px 16px #a0b88b44;
 }
 
 .how-it-works {
@@ -189,4 +227,98 @@
   .btn-outline, .btn-primary {
     width: 100%;
   }
+}
+
+.destacados-section {
+  background: #F5F1D7;
+  padding: 64px 0 48px 0;
+  text-align: center;
+}
+.destacados-section h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #A0B88B;
+  margin-bottom: 32px;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+}
+.destacados-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: center;
+  align-items: flex-start;
+}
+.destacado-card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 6px 24px #a0b88b22;
+  border: 1.5px solid #A0B88B;
+  width: 340px;
+  max-width: 95vw;
+  padding: 28px 22px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  transition: box-shadow 0.2s, transform 0.2s;
+  opacity: 0;
+  transform: translateY(40px);
+}
+.destacado-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.destacado-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 12px #a0b88b22;
+}
+.destacado-card h3 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #7b8c6a;
+  margin-bottom: 6px;
+  text-align: center;
+}
+.destacado-card p {
+  color: #A0B88B;
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+  text-align: center;
+}
+.destacado-card .categoria {
+  color: #8CA97A;
+  font-weight: 600;
+  margin-bottom: 2px;
+  font-size: 1.08rem;
+}
+.destacado-card .precio {
+  color: #6b7c5c;
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin-bottom: 10px;
+  margin-top: 2px;
+}
+.destacado-card .btn-ver {
+  background: #A0B88B;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 22px;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-top: 8px;
+  transition: background 0.18s, transform 0.18s;
+  cursor: pointer;
+}
+.destacado-card .btn-ver:hover {
+  background: #8CA97A;
+  transform: scale(1.05);
+}
+@media (max-width: 900px) {
+  .destacados-list { flex-direction: column; gap: 24px; }
+  .destacado-card { width: 98vw; }
 } 
