@@ -26,18 +26,26 @@ const MySpaces = () => {
     };
 
     return (
-        <div className="bg-gray-50 min-h-screen">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <div className="flex justify-between items-center mb-6">
-                    <h1 className="text-2xl font-bold text-gray-900">Mis Espacios</h1>
+        <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #f8fafc 0%, #e9f5ee 100%)', padding: '3rem 0' }}>
+            <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+                <div style={{ textAlign: 'center', marginBottom: '2.2rem' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
+                        <span style={{ fontSize: 44, color: '#2ee59d', marginBottom: 0 }}>
+                            <svg width="44" height="44" fill="none" viewBox="0 0 24 24" stroke="#2ee59d"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10l9-7 9 7v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 21V9h6v12" /></svg>
+                        </span>
+                        <h1 style={{ fontSize: '2.5rem', fontWeight: 900, color: '#232323', margin: 0, fontFamily: 'Segoe UI, Arial, sans-serif', letterSpacing: '-1px' }}>Mis Espacios</h1>
+                        <p style={{ color: '#6b7c6c', fontSize: '1.13rem', margin: 0, fontWeight: 400 }}>Gestiona, edita o elimina los espacios que has publicado en la plataforma.</p>
+                    </div>
                     <Link
                         to="/ofrecer-espacio"
-                        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        style={{ display: 'inline-block', marginTop: '1.7rem', background: '#2ee59d', color: '#fff', fontWeight: 700, fontSize: '1.1rem', borderRadius: '999px', padding: '13px 36px', boxShadow: '0 2px 8px #2ee59d22', textDecoration: 'none', transition: 'background 0.18s, transform 0.18s' }}
+                        onMouseOver={e => { e.target.style.background = '#1ecb7a'; }}
+                        onMouseOut={e => { e.target.style.background = '#2ee59d'; }}
                     >
-                        Crear Nuevo Espacio
+                        <span style={{ fontSize: 18, marginRight: 8, verticalAlign: 'middle' }}>+</span> Crear Nuevo Espacio
                     </Link>
                 </div>
-                {deleteError && ( <div className="mb-4 p-3 bg-red-100 text-red-700 rounded"> {deleteError} </div> ) }
+                {deleteError && (<div className="mb-4 p-3 bg-red-100 text-red-700 rounded"> {deleteError} </div>)}
                 <UserSpaces onEdit={handleEdit} onDelete={handleDelete} />
             </div>
         </div>

@@ -26,9 +26,7 @@ const Navbar = () => {
   };
 
   // Fondo transparente solo en la home
-  const navbarStyle = location.pathname === '/'
-    ? { backgroundColor: 'transparent' }
-    : { backgroundColor: '#F5F1D7', borderBottom: '1px solid #A0B88B' };
+  const navbarStyle = { backgroundColor: 'transparent' };
 
   return (
     <nav style={navbarStyle}>

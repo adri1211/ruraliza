@@ -7,6 +7,7 @@ const AdminPanel = () => {
     const [tabValue, setTabValue] = useState(0);
     const [users, setUsers] = useState([]);
     const [spaces, setSpaces] = useState([]);
+    const [subscriptions, setSubscriptions] = useState([]);
     const [openDialog, setOpenDialog] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [editData, setEditData] = useState({});
@@ -17,6 +18,7 @@ const AdminPanel = () => {
         if (user?.roles?.includes('ROLE_ADMIN')) {
             fetchUsers();
             fetchSpaces();
+            fetchSubscriptions();
         }
     }, [user]);
 
@@ -51,6 +53,23 @@ const AdminPanel = () => {
             setSpaces(data);
         } catch (error) {
             setError('Error al cargar espacios: ' + error.message);
+        }
+    };
+
+    const fetchSubscriptions = async () => {
+        try {
+            const token = localStorage.getItem('jwt_token');
+            const response = await fetch('http://127.0.0.1:8000/api/admin/subscriptions', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/json',
+                },
+            });
+            if (!response.ok) throw new Error('Error al cargar suscripciones');
+            const data = await response.json();
+            setSubscriptions(data);
+        } catch (error) {
+            setError('Error al cargar suscripciones: ' + error.message);
         }
     };
 
@@ -140,6 +159,12 @@ const AdminPanel = () => {
                 >
                     Espacios
                 </button>
+                <button 
+                    className={`tab ${tabValue === 2 ? 'active' : ''}`} 
+                    onClick={() => setTabValue(2)}
+                >
+                    Suscripciones
+                </button>
             </div>
 
             {tabValue === 0 && (
@@ -219,6 +244,35 @@ const AdminPanel = () => {
                                             Eliminar
                                         </button>
                                     </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
+
+            {tabValue === 2 && (
+                <div className="table-container">
+                    <table className="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Email</th>
+                                <th>Usuario</th>
+                                <th>Nombre Completo</th>
+                                <th>Roles</th>
+                                <th>Suscrito</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {subscriptions.map((sub) => (
+                                <tr key={sub.id}>
+                                    <td>{sub.id}</td>
+                                    <td>{sub.email}</td>
+                                    <td>{sub.username}</td>
+                                    <td>{sub.fullName}</td>
+                                    <td>{sub.roles.join(', ')}</td>
+                                    <td>{sub.subscribed ? 'Sí' : 'No'}</td>
                                 </tr>
                             ))}
                         </tbody>

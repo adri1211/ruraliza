@@ -126,4 +126,22 @@ class AdminController extends AbstractController
 
         return $this->json(['message' => 'Espacio eliminado correctamente']);
     }
+
+    #[Route('/subscriptions', name: 'admin_subscriptions', methods: ['GET'])]
+    public function getSubscriptions(EntityManagerInterface $entityManager): JsonResponse
+    {
+        $users = $entityManager->getRepository(User::class)->findBy(['isSubscribed' => true]);
+        $subscriptions = array_map(function (User $user) {
+            return [
+                'id' => $user->getId(),
+                'email' => $user->getEmail(),
+                'username' => $user->getUsername(),
+                'fullName' => $user->getFullName(),
+                'roles' => $user->getRoles(),
+                'subscribed' => $user->isSubscribed(),
+                // Puedes añadir más campos si lo necesitas
+            ];
+        }, $users);
+        return $this->json($subscriptions);
+    }
 } 

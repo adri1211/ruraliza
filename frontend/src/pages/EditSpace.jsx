@@ -97,61 +97,94 @@ const EditSpace = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-          <div className="px-8 py-6 bg-gradient-to-r from-indigo-600 to-purple-600">
-            <h1 className="text-3xl font-bold text-white">Editar espacio</h1>
-            <p className="mt-2 text-indigo-100">Modifica los datos de tu espacio</p>
-          </div>
-          <form onSubmit={handleSubmit} className="p-8 space-y-8">
-            <div className="space-y-2">
-              <label htmlFor="location" className="block text-sm font-semibold text-gray-700">Ubicación</label>
-              <input type="text" id="location" name="location" required value={formData.location} onChange={handleInputChange} className="block w-full rounded-lg border-gray-300 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150" placeholder="Dirección completa del espacio" />
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="price" className="block text-sm font-semibold text-gray-700">Precio (€/mes)</label>
-              <input type="number" id="price" name="price" required value={formData.price} onChange={handleInputChange} className="block w-full rounded-lg border-gray-300 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150" placeholder="0.00" min="0" step="0.01" />
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="category" className="block text-sm font-semibold text-gray-700">Categoría</label>
-              <input type="text" id="category" name="category" required value={formData.category} onChange={handleInputChange} className="block w-full rounded-lg border-gray-300 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150" placeholder="Categoría" />
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="description" className="block text-sm font-semibold text-gray-700">Descripción</label>
-              <textarea id="description" name="description" required value={formData.description} onChange={handleInputChange} rows={4} className="block w-full rounded-lg border-gray-300 shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150" placeholder="Describe tu espacio..." />
-            </div>
-            <div className="space-y-2">
-              <label className="block text-sm font-semibold text-gray-700">Fotos y documentos (PDF)</label>
-              <input id="images" name="images" type="file" multiple accept="image/*,application/pdf" onChange={handleImageChange} className="block" />
-              {/* Previsualización de archivos existentes y nuevos */}
-              {previewImages.length > 0 && (
-                <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                  {previewImages.map((preview, index) => (
-                    <div key={index} className="relative group">
-                      {preview.type === 'image' ? (
-                        <img src={preview.src} alt={preview.name} className="h-32 w-full object-cover rounded-lg shadow-sm group-hover:shadow-md transition duration-150" />
-                      ) : (
-                        <div className="flex flex-col items-center justify-center h-32 w-full bg-gray-100 rounded-lg border border-gray-300">
-                          <svg className="h-10 w-10 text-indigo-500 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                          </svg>
-                          <span className="text-xs text-gray-700">{preview.name}</span>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-            {error && <div className="p-3 bg-red-100 text-red-700 rounded">{error}</div>}
-            <div className="flex justify-end pt-4">
-              <button type="submit" disabled={isSubmitting} className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150">
-                {isSubmitting ? 'Guardando...' : 'Guardar cambios'}
-              </button>
-            </div>
-          </form>
+    <div className="min-h-screen" style={{ background: 'linear-gradient(135deg, #f5f1d7 0%, #eaf6e3 100%)', padding: '32px 0' }}>
+      <div style={{ maxWidth: 600, margin: '0 auto', borderRadius: 22, boxShadow: '0 8px 32px #a0b88b33', background: '#fff', overflow: 'hidden' }}>
+        <div style={{ background: 'linear-gradient(90deg, #A0B88B 0%, #2ee59d 100%)', padding: '32px 32px 18px 32px' }}>
+          <h1 style={{ fontSize: '2.1rem', fontWeight: 800, color: '#fff', marginBottom: 4 }}>Editar espacio</h1>
+          <p style={{ color: '#eaf6e3', fontWeight: 500, fontSize: '1.08rem' }}>Modifica los datos de tu espacio</p>
         </div>
+        <form onSubmit={handleSubmit} style={{ padding: 32, display: 'flex', flexDirection: 'column', gap: 22 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <label htmlFor="location" style={{ fontWeight: 600, color: '#232323', marginBottom: 2 }}>Ubicación</label>
+            <input type="text" id="location" name="location" required value={formData.location} onChange={handleInputChange}
+              style={{ border: '1.5px solid #A0B88B', borderRadius: 8, padding: '10px 14px', fontSize: '1rem', outline: 'none', transition: 'border 0.2s', boxShadow: '0 1px 6px #a0b88b11' }}
+              onFocus={e => e.target.style.border = '2px solid #2ee59d'}
+              onBlur={e => e.target.style.border = '1.5px solid #A0B88B'}
+              placeholder="Dirección completa del espacio"
+            />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <label htmlFor="price" style={{ fontWeight: 600, color: '#232323', marginBottom: 2 }}>Precio (€/mes)</label>
+            <input type="number" id="price" name="price" required value={formData.price} onChange={handleInputChange}
+              style={{ border: '1.5px solid #A0B88B', borderRadius: 8, padding: '10px 14px', fontSize: '1rem', outline: 'none', transition: 'border 0.2s', boxShadow: '0 1px 6px #a0b88b11' }}
+              onFocus={e => e.target.style.border = '2px solid #2ee59d'}
+              onBlur={e => e.target.style.border = '1.5px solid #A0B88B'}
+              placeholder="0.00" min="0" step="0.01"
+            />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <label htmlFor="category" style={{ fontWeight: 600, color: '#232323', marginBottom: 2 }}>Categoría</label>
+            <input type="text" id="category" name="category" required value={formData.category} onChange={handleInputChange}
+              style={{ border: '1.5px solid #A0B88B', borderRadius: 8, padding: '10px 14px', fontSize: '1rem', outline: 'none', transition: 'border 0.2s', boxShadow: '0 1px 6px #a0b88b11' }}
+              onFocus={e => e.target.style.border = '2px solid #2ee59d'}
+              onBlur={e => e.target.style.border = '1.5px solid #A0B88B'}
+              placeholder="Categoría"
+            />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <label htmlFor="description" style={{ fontWeight: 600, color: '#232323', marginBottom: 2 }}>Descripción</label>
+            <textarea id="description" name="description" required value={formData.description} onChange={handleInputChange} rows={4}
+              style={{ border: '1.5px solid #A0B88B', borderRadius: 8, padding: '10px 14px', fontSize: '1rem', outline: 'none', transition: 'border 0.2s', boxShadow: '0 1px 6px #a0b88b11', resize: 'vertical' }}
+              onFocus={e => e.target.style.border = '2px solid #2ee59d'}
+              onBlur={e => e.target.style.border = '1.5px solid #A0B88B'}
+              placeholder="Describe tu espacio..."
+            />
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <label style={{ fontWeight: 600, color: '#232323', marginBottom: 2 }}>Fotos y documentos (PDF)</label>
+            <input id="images" name="images" type="file" multiple accept="image/*,application/pdf" onChange={handleImageChange}
+              style={{ marginBottom: 8 }}
+            />
+            {previewImages.length > 0 && (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+                {previewImages.map((preview, index) => (
+                  <div key={index} style={{ background: '#f5f1d7', border: '1.5px solid #A0B88B', borderRadius: 12, boxShadow: '0 2px 10px #a0b88b22', width: 110, height: 110, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
+                    {preview.type === 'image' ? (
+                      <img src={preview.src} alt={preview.name} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 12 }} />
+                    ) : (
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+                        <svg style={{ height: 32, width: 32, color: '#A0B88B', marginBottom: 6 }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                        </svg>
+                        <span style={{ fontSize: '0.7rem', color: '#232323', textAlign: 'center', wordBreak: 'break-all' }}>{preview.name}</span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          {error && <div style={{ background: '#ffeaea', color: '#b91c1c', borderRadius: 8, padding: '10px 16px', fontWeight: 500 }}>{error}</div>}
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 10 }}>
+            <button type="submit" disabled={isSubmitting}
+              style={{
+                background: 'linear-gradient(90deg, #A0B88B 0%, #2ee59d 100%)',
+                color: '#fff',
+                border: 'none',
+                borderRadius: 8,
+                padding: '13px 38px',
+                fontWeight: 700,
+                fontSize: '1.08rem',
+                boxShadow: '0 2px 10px #a0b88b22',
+                cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                opacity: isSubmitting ? 0.7 : 1,
+                transition: 'background 0.18s, transform 0.18s',
+              }}
+            >
+              {isSubmitting ? 'Guardando...' : 'Guardar cambios'}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

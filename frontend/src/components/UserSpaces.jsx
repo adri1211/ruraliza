@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const UserSpaces = () => {
     const [spaces, setSpaces] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [imgErrors, setImgErrors] = useState([]);
+    const navigate = useNavigate();
 
     const fetchUserSpaces = async () => {
         try {
@@ -84,39 +86,92 @@ const UserSpaces = () => {
     }
 
     return (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {spaces.map((space) => (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem', justifyContent: 'center', padding: '1rem 0' }}>
+            {spaces.map((space, i) => (
                 <div
                     key={space.id}
-                    className="bg-white overflow-hidden shadow rounded-lg"
+                    style={{
+                        background: '#fff',
+                        overflow: 'hidden',
+                        boxShadow: '0 6px 24px #a0b88b22',
+                        borderRadius: '20px',
+                        border: '1.5px solid #A0B88B',
+                        transition: 'box-shadow 0.2s, transform 0.2s',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        position: 'relative',
+                        minHeight: '370px',
+                        textAlign: 'center',
+                        maxWidth: '420px',
+                        width: '100%',
+                        margin: '0 auto',
+                    }}
                 >
-                    <div className="relative h-48">
-                        {space.images && space.images.length > 0 ? (
+                    {/* Acciones editar/eliminar */}
+                    <div style={{ position: 'absolute', top: 12, right: 14, display: 'flex', gap: 10, zIndex: 2 }}>
+                        <button
+                            onClick={() => navigate(`/editar-espacio/${space.id}`)}
+                            title="Editar"
+                            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#2ee59d', fontSize: 20, padding: 4 }}
+                        >
+                            <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#2ee59d"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828a4 4 0 01-1.414.828l-4.243 1.414 1.414-4.243a4 4 0 01.828-1.414z" /></svg>
+                        </button>
+                        <button
+                            onClick={() => {
+                                if (window.confirm("¿Estás seguro de eliminar este espacio?")) {
+                                    (async () => {
+                                        const token = localStorage.getItem("jwt_token");
+                                        const res = await fetch(`http://localhost:8000/api/spaces/${space.id}`, {
+                                            method: "DELETE",
+                                            headers: {
+                                                "Authorization": `Bearer ${token}`
+                                            },
+                                            credentials: "include"
+                                        });
+                                        if (res.ok) {
+                                            fetchUserSpaces();
+                                        } else {
+                                            alert("Error al eliminar el espacio.");
+                                        }
+                                    })();
+                                }
+                            }}
+                            title="Eliminar"
+                            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#e57373', fontSize: 20, padding: 4 }}
+                        >
+                            <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#e57373"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
+                    </div>
+                    <div style={{ position: 'relative', width: '100%', height: '120px', background: '#f5f1d7', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '14px', marginBottom: '18px', boxShadow: '0 2px 12px #a0b88b22' }}>
+                        {space.images && space.images.length > 0 && !imgErrors[i] ? (
                             <img
                                 src={`http://localhost:8000/uploads/spaces/${space.images[0]}`}
                                 alt={space.location}
-                                className="w-full h-full object-cover"
+                                style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '14px' }}
+                                onError={() => setImgErrors(prev => { const arr = [...prev]; arr[i] = true; return arr; })}
                             />
                         ) : (
-                            <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                                <svg className="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#A0B88B' }}>
+                                <svg style={{ height: '48px', width: '48px', marginBottom: '0.5rem' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
+                                <span style={{ color: '#A0B88B99', fontSize: '0.95rem', fontWeight: 500 }}>Sin imagen</span>
                             </div>
                         )}
                     </div>
-                    <div className="p-6">
-                        <h3 className="text-lg font-medium text-gray-900">{space.location}</h3>
-                        <p className="mt-1 text-sm text-gray-500">{space.category}</p>
-                        <p className="mt-2 text-sm text-gray-900">{space.price}€/mes</p>
-                        <div className="mt-4">
-                            <Link
-                                to={`/espacios/${space.id}`}
-                                className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                            >
-                                Ver detalles
-                            </Link>
-                        </div>
+                    <div style={{ padding: '0 22px 22px 22px', flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', width: '100%' }}>
+                        <h3 style={{ fontSize: '1.13rem', fontWeight: 800, color: '#232323', marginBottom: 8 }}>{space.location}</h3>
+                        <span style={{ color: '#2ee59d', fontWeight: 600, fontSize: '1.08rem', marginBottom: 2 }}>{space.category}</span>
+                        <span style={{ color: '#2ee59d', fontWeight: 700, fontSize: '1.15rem', marginBottom: 10, marginTop: 2 }}>{space.price} €/mes</span>
+                        <Link
+                            to={`/espacios/${space.id}`}
+                            style={{ background: '#2ee59d', color: '#fff', border: 'none', borderRadius: '6px', padding: '10px 22px', fontWeight: 600, fontSize: '1rem', marginTop: '8px', transition: 'background 0.18s, transform 0.18s', cursor: 'pointer', width: '100%', textDecoration: 'none', textAlign: 'center', display: 'block' }}
+                            onMouseOver={e => { e.target.style.background = '#1ecb7a'; }}
+                            onMouseOut={e => { e.target.style.background = '#2ee59d'; }}
+                        >
+                            Ver detalles
+                        </Link>
                     </div>
                 </div>
             ))}

@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import { useParams, Link } from 'react-router-dom';
 
 const Chat = () => {
   const { id } = useParams();
@@ -16,6 +15,7 @@ const Chat = () => {
   const typingTimeoutRef = useRef(null);
   const typingPollingIntervalRef = useRef(null);
   const prevMessagesLength = useRef(messages.length);
+  const [imgError, setImgError] = useState(false);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -30,7 +30,7 @@ const Chat = () => {
 
   const fetchChat = async () => {
     try {
-      const token = Cookies.get('jwt_token');
+      const token = localStorage.getItem('jwt_token');
       const response = await fetch(`http://localhost:8000/api/chats/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -49,7 +49,7 @@ const Chat = () => {
 
   const fetchNewMessages = async () => {
     try {
-      const token = Cookies.get('jwt_token');
+      const token = localStorage.getItem('jwt_token');
       const response = await fetch(`http://localhost:8000/api/chats/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -71,7 +71,7 @@ const Chat = () => {
     if (!chat) return; // No hacer la petición si no hay chat
 
     try {
-      const token = Cookies.get('jwt_token');
+      const token = localStorage.getItem('jwt_token');
       const response = await fetch(`http://localhost:8000/api/chats/${id}/typing`, {
         method: 'POST', // Cambiado a POST
         headers: {
@@ -93,7 +93,7 @@ const Chat = () => {
 
   const notifyTyping = async (isTyping) => {
     try {
-      const token = Cookies.get('jwt_token');
+      const token = localStorage.getItem('jwt_token');
       await fetch(`http://localhost:8000/api/chats/${id}/typing`, {
         method: 'POST',
         headers: {
@@ -156,7 +156,7 @@ const Chat = () => {
     if (!newMessage.trim()) return;
 
     try {
-      const token = Cookies.get('jwt_token');
+      const token = localStorage.getItem('jwt_token');
       const response = await fetch(`http://localhost:8000/api/chats/${id}/messages`, {
         method: 'POST',
         headers: {
@@ -222,77 +222,128 @@ const Chat = () => {
   }
 
   return (
-    <div className="flex flex-col h-[600px] max-w-2xl mx-auto bg-gray-100 rounded-lg shadow-lg mt-10">
-      {/* Header */}
-      <div className="bg-white shadow-sm p-4">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-xl font-semibold text-gray-900">
-            Chat con {otherUser.username}
-          </h1>
-          <p className="text-sm text-gray-500">
-            Espacio: {chat.space.location}
-          </p>
-        </div>
-      </div>
-
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 max-h-[400px]">
-        <div className="max-w-4xl mx-auto space-y-4">
-          {messages.map((message) => (
-            <div
-              key={message.id}
-              className={`flex ${message.sender.id === currentUser.id ? 'justify-end' : 'justify-start'}`}
-            >
-              <div
-                className={`max-w-[70%] rounded-lg px-4 py-2 ${
-                  message.sender.id === currentUser.id
-                    ? 'bg-indigo-600 text-white'
-                    : 'bg-white text-gray-900'
-                }`}
-              >
-                <div className="text-sm">{message.content}</div>
-                <div className={`text-xs mt-1 ${
-                  message.sender.id === currentUser.id
-                    ? 'text-indigo-200'
-                    : 'text-gray-500'
-                }`}>
-                  {new Date(message.createdAt).toLocaleTimeString()}
+    <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #f5f1d7 0%, #eaf6e3 100%)', padding: '40px 0' }}>
+      <div style={{
+        maxWidth: 1100,
+        margin: '0 auto',
+        borderRadius: 22,
+        boxShadow: '0 8px 32px #a0b88b33',
+        background: '#fff',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'row',
+        minHeight: 540,
+        gap: 0
+      }}>
+        {/* Chat principal */}
+        <div style={{ flex: 2, minWidth: 0, display: 'flex', flexDirection: 'column', borderRight: '1.5px solid #e0e0e0' }}>
+          {/* Header */}
+          <div style={{ background: 'linear-gradient(90deg, #A0B88B 0%, #2ee59d 100%)', padding: '24px 32px 16px 32px', display: 'flex', alignItems: 'center', gap: 16 }}>
+            <div style={{ background: '#fff', borderRadius: '50%', width: 44, height: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px #a0b88b22' }}>
+              <svg style={{ width: 28, height: 28, color: '#A0B88B' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8h2a2 2 0 012 2v8a2 2 0 01-2 2H7a2 2 0 01-2-2V10a2 2 0 012-2h2m4-4v4m0 0l-2-2m2 2l2-2" /></svg>
+            </div>
+            <div>
+              <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#fff', marginBottom: 2 }}>Chat con {otherUser.username}</h1>
+              <p style={{ color: '#eaf6e3', fontSize: '1rem', fontWeight: 500 }}>Espacio: {chat.space.location}</p>
+            </div>
+          </div>
+          {/* Mensajes */}
+          <div style={{ flex: 1, overflowY: 'auto', padding: '32px 24px', background: '#f5f8ee', minHeight: 320 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+              {messages.map((message) => (
+                <div
+                  key={message.id}
+                  style={{
+                    display: 'flex',
+                    justifyContent: message.sender.id === currentUser.id ? 'flex-end' : 'flex-start',
+                  }}
+                >
+                  <div
+                    style={{
+                      maxWidth: '70%',
+                      borderRadius: 16,
+                      padding: '12px 18px',
+                      background: message.sender.id === currentUser.id ? 'linear-gradient(90deg, #A0B88B 0%, #2ee59d 100%)' : '#fff',
+                      color: message.sender.id === currentUser.id ? '#fff' : '#232323',
+                      boxShadow: '0 2px 12px #a0b88b22',
+                      fontSize: '1.05rem',
+                      fontWeight: 500,
+                      textAlign: 'left',
+                      position: 'relative',
+                    }}
+                  >
+                    <div>{message.content}</div>
+                    <div style={{ fontSize: '0.85rem', marginTop: 6, color: message.sender.id === currentUser.id ? '#eaf6e3' : '#A0B88B', textAlign: 'right', fontWeight: 400 }}>
+                      {new Date(message.createdAt).toLocaleTimeString()}
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ))}
+              {otherUserTyping && (
+                <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+                  <div style={{ background: '#fff', color: '#A0B88B', padding: '10px 18px', borderRadius: 16, fontSize: '1rem', boxShadow: '0 2px 12px #a0b88b22' }}>
+                    {otherUser.username} está escribiendo...
+                  </div>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
             </div>
-          ))}
-          {otherUserTyping && (
-            <div className="flex justify-start">
-              <div className="bg-white text-gray-500 px-4 py-2 rounded-lg text-sm">
-                {otherUser.username} está escribiendo...
-              </div>
-            </div>
-          )}
-          <div ref={messagesEndRef} />
+          </div>
+          {/* Input de mensaje */}
+          <div style={{ background: '#f5f8ee', borderTop: '1.5px solid #e0e0e0', padding: 20 }}>
+            <form onSubmit={sendMessage} style={{ display: 'flex', gap: 10 }}>
+              <input
+                type="text"
+                value={newMessage}
+                onChange={(e) => {
+                  setNewMessage(e.target.value);
+                  handleTyping();
+                }}
+                placeholder="Escribe un mensaje..."
+                style={{ flex: 1, borderRadius: 12, border: '1.5px solid #A0B88B', padding: '12px 16px', fontSize: '1rem', outline: 'none', transition: 'border 0.2s' }}
+                onFocus={e => e.target.style.border = '2px solid #2ee59d'}
+                onBlur={e => e.target.style.border = '1.5px solid #A0B88B'}
+              />
+              <button
+                type="submit"
+                disabled={!newMessage.trim()}
+                style={{ background: 'linear-gradient(90deg, #A0B88B 0%, #2ee59d 100%)', color: '#fff', fontWeight: 700, fontSize: '1rem', border: 'none', borderRadius: 12, padding: '0 32px', cursor: !newMessage.trim() ? 'not-allowed' : 'pointer', opacity: !newMessage.trim() ? 0.7 : 1, transition: 'background 0.18s' }}
+              >
+                Enviar
+              </button>
+            </form>
+          </div>
         </div>
-      </div>
-
-      {/* Message Input */}
-      <div className="bg-white border-t p-4">
-        <form onSubmit={sendMessage} className="max-w-4xl mx-auto flex gap-2">
-          <input
-            type="text"
-            value={newMessage}
-            onChange={(e) => {
-              setNewMessage(e.target.value);
-              handleTyping();
-            }}
-            placeholder="Escribe un mensaje..."
-            className="flex-1 rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:border-indigo-500"
-          />
-          <button
-            type="submit"
-            disabled={!newMessage.trim()}
-            className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Enviar
-          </button>
-        </form>
+        {/* Barra lateral informativa */}
+        <div style={{ flex: 1, minWidth: 0, background: '#f5f8ee', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', padding: '36px 18px', gap: 18 }}>
+          <div style={{ background: '#fff', borderRadius: 18, boxShadow: '0 4px 24px #a0b88b22', width: '100%', maxWidth: 340, padding: 0, overflow: 'hidden', border: '1.5px solid #A0B88B', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            {/* Imagen */}
+            <div style={{ width: '100%', height: 140, background: '#f5f1d7', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '18px 18px 0 0', overflow: 'hidden' }}>
+              {chat.space.images && chat.space.images.length > 0 && !imgError ? (
+                <img src={`http://localhost:8000/uploads/spaces/${chat.space.images[0]}`} alt={chat.space.location} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={() => setImgError(true)} />
+              ) : (
+                <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#A0B88B' }}>
+                  <svg style={{ height: '48px', width: '48px', marginBottom: '0.5rem' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span style={{ color: '#A0B88B99', fontSize: '0.95rem', fontWeight: 500 }}>Sin imagen</span>
+                </div>
+              )}
+            </div>
+            <div style={{ padding: '22px 18px 18px 18px', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+              <h3 style={{ fontSize: '1.13rem', fontWeight: 800, color: '#232323', marginBottom: 2, textAlign: 'center' }}>{chat.space.location}</h3>
+              <span style={{ color: '#2ee59d', fontWeight: 600, fontSize: '1.08rem', marginBottom: 2 }}>{chat.space.category}</span>
+              <span style={{ color: '#2ee59d', fontWeight: 700, fontSize: '1.15rem', marginBottom: 8, marginTop: 2 }}>{chat.space.price} €/mes</span>
+              <p style={{ color: '#6b7c6c', fontSize: '1.01rem', marginBottom: 8, textAlign: 'center', minHeight: 40, maxHeight: 60, overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>{chat.space.description && chat.space.description.length > 120 ? chat.space.description.slice(0, 120) + '...' : chat.space.description}</p>
+              <Link to={`/espacios/${chat.space.id}`} style={{ background: '#2ee59d', color: '#fff', border: 'none', borderRadius: '6px', padding: '10px 22px', fontWeight: 600, fontSize: '1rem', marginTop: '8px', transition: 'background 0.18s, transform 0.18s', cursor: 'pointer', width: '100%', textDecoration: 'none', textAlign: 'center', display: 'block' }}
+                onMouseOver={e => { e.target.style.background = '#1ecb7a'; }}
+                onMouseOut={e => { e.target.style.background = '#2ee59d'; }}
+              >
+                Ver ficha del espacio
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
