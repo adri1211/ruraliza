@@ -45,7 +45,7 @@ class StripeController extends AbstractController
     {
         $payload = $request->getContent();
         $sig_header = $request->headers->get('stripe-signature');
-        $endpoint_secret = 'whsec_da4af95409b8f1a68c63be264f491ba57ad4592de629eace36eb1b343d9f6b08';
+        $endpoint_secret = $_ENV['STRIPE_WEBHOOK_SECRET'];
 
         try {
             $event = \Stripe\Webhook::constructEvent($payload, $sig_header, $endpoint_secret);
