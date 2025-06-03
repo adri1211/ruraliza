@@ -1,6 +1,6 @@
-// import Cookies from 'js-cookie'; // Eliminar esta línea
 
-const API_URL = 'http://localhost:8000/api';
+
+const API_URL = '/api';
 
 const getAuthHeaders = () => {
     const token = localStorage.getItem('jwt_token');

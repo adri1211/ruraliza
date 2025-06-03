@@ -12,7 +12,7 @@ const UserSpaces = () => {
         try {
             setLoading(true);
             const token = localStorage.getItem('jwt_token');
-            const response = await fetch('http://localhost:8000/api/spaces/user/spaces', {
+            const response = await fetch('/api/spaces/user/spaces', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -122,7 +122,7 @@ const UserSpaces = () => {
                                 if (window.confirm("¿Estás seguro de eliminar este espacio?")) {
                                     (async () => {
                                         const token = localStorage.getItem("jwt_token");
-                                        const res = await fetch(`http://localhost:8000/api/spaces/${space.id}`, {
+                                        const res = await fetch(`/api/spaces/${space.id}`, {
                                             method: "DELETE",
                                             headers: {
                                                 "Authorization": `Bearer ${token}`
@@ -146,7 +146,7 @@ const UserSpaces = () => {
                     <div style={{ position: 'relative', width: '100%', height: '120px', background: '#f5f1d7', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '14px', marginBottom: '18px', boxShadow: '0 2px 12px #a0b88b22' }}>
                         {space.images && space.images.length > 0 && !imgErrors[i] ? (
                             <img
-                                src={`http://localhost:8000/uploads/spaces/${space.images[0]}`}
+                                src={`/uploads/spaces/${space.images[0]}`}
                                 alt={space.location}
                                 style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '14px' }}
                                 onError={() => setImgErrors(prev => { const arr = [...prev]; arr[i] = true; return arr; })}

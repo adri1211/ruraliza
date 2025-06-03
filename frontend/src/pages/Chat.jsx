@@ -31,7 +31,7 @@ const Chat = () => {
   const fetchChat = async () => {
     try {
       const token = localStorage.getItem('jwt_token');
-      const response = await fetch(`http://localhost:8000/api/chats/${id}`, {
+      const response = await fetch(`/api/chats/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -50,7 +50,7 @@ const Chat = () => {
   const fetchNewMessages = async () => {
     try {
       const token = localStorage.getItem('jwt_token');
-      const response = await fetch(`http://localhost:8000/api/chats/${id}`, {
+      const response = await fetch(`/api/chats/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -72,7 +72,7 @@ const Chat = () => {
 
     try {
       const token = localStorage.getItem('jwt_token');
-      const response = await fetch(`http://localhost:8000/api/chats/${id}/typing`, {
+      const response = await fetch(`/api/chats/${id}/typing`, {
         method: 'POST', // Cambiado a POST
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -94,7 +94,7 @@ const Chat = () => {
   const notifyTyping = async (isTyping) => {
     try {
       const token = localStorage.getItem('jwt_token');
-      await fetch(`http://localhost:8000/api/chats/${id}/typing`, {
+      await fetch(`/api/chats/${id}/typing`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -157,7 +157,7 @@ const Chat = () => {
 
     try {
       const token = localStorage.getItem('jwt_token');
-      const response = await fetch(`http://localhost:8000/api/chats/${id}/messages`, {
+      const response = await fetch(`/api/chats/${id}/messages`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -320,7 +320,7 @@ const Chat = () => {
             {/* Imagen */}
             <div style={{ width: '100%', height: 140, background: '#f5f1d7', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '18px 18px 0 0', overflow: 'hidden' }}>
               {chat.space.images && chat.space.images.length > 0 && !imgError ? (
-                <img src={`http://localhost:8000/uploads/spaces/${chat.space.images[0]}`} alt={chat.space.location} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={() => setImgError(true)} />
+                <img src={`/uploads/spaces/${chat.space.images[0]}`} alt={chat.space.location} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={() => setImgError(true)} />
               ) : (
                 <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#A0B88B' }}>
                   <svg style={{ height: '48px', width: '48px', marginBottom: '0.5rem' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -19,7 +19,7 @@ const Home = () => {
         if (token) {
           headers['Authorization'] = `Bearer ${token}`;
         }
-        const response = await fetch('http://localhost:8000/api/spaces', {
+        const response = await fetch('/api/spaces', {
           method: 'GET',
           headers
         });
@@ -90,7 +90,7 @@ const Home = () => {
                 if (espacio.images[0].startsWith('http')) {
                   imageUrl = espacio.images[0];
                 } else {
-                  imageUrl = `http://localhost:8000/uploads/spaces/${espacio.images[0]}`;
+                  imageUrl = `/uploads/spaces/${espacio.images[0]}`;
                 }
               }
               const handleImgError = () => {

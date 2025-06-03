@@ -25,7 +25,7 @@ const AdminPanel = () => {
     const fetchUsers = async () => {
         try {
             const token = localStorage.getItem('jwt_token');
-            const response = await fetch('http://127.0.0.1:8000/api/admin/users', {
+            const response = await fetch('/api/admin/users', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Accept': 'application/json',
@@ -42,7 +42,7 @@ const AdminPanel = () => {
     const fetchSpaces = async () => {
         try {
             const token = localStorage.getItem('jwt_token');
-            const response = await fetch('http://127.0.0.1:8000/api/admin/spaces', {
+            const response = await fetch('/api/admin/spaces', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Accept': 'application/json',
@@ -59,7 +59,7 @@ const AdminPanel = () => {
     const fetchSubscriptions = async () => {
         try {
             const token = localStorage.getItem('jwt_token');
-            const response = await fetch('http://127.0.0.1:8000/api/admin/subscriptions', {
+            const response = await fetch('/api/admin/subscriptions', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Accept': 'application/json',
@@ -84,7 +84,7 @@ const AdminPanel = () => {
 
         try {
             const token = localStorage.getItem('jwt_token');
-            const response = await fetch(`http://127.0.0.1:8000/api/admin/${type}/${id}`, {
+            const response = await fetch(`/api/admin/${type}/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -110,7 +110,7 @@ const AdminPanel = () => {
         try {
             const token = localStorage.getItem('jwt_token');
             const { type, id } = selectedItem;
-            const response = await fetch(`http://127.0.0.1:8000/api/admin/${type}/${id}`, {
+            const response = await fetch(`/api/admin/${type}/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,

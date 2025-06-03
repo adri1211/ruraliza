@@ -13,7 +13,7 @@ const FavoritesList = () => {
             try {
                 setLoading(true);
                 const token = localStorage.getItem('jwt_token');
-                const response = await fetch('http://localhost:8000/api/favorites', {
+                const response = await fetch('/api/favorites', {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
@@ -73,7 +73,7 @@ const FavoritesList = () => {
                     if (space.images[0].startsWith('http')) {
                         imageUrl = space.images[0];
                     } else {
-                        imageUrl = `http://localhost:8000/uploads/spaces/${space.images[0]}`;
+                        imageUrl = `/uploads/spaces/${space.images[0]}`;
                     }
                 }
                 const handleImgError = () => {

@@ -24,7 +24,7 @@ const SpacesList = () => {
             if (token) {
                 headers['Authorization'] = `Bearer ${token}`;
             }
-            const response = await fetch('http://localhost:8000/api/spaces', {
+            const response = await fetch('/api/spaces', {
                 method: 'GET',
                 headers
             });
@@ -57,7 +57,7 @@ const SpacesList = () => {
         const method = isFavorite ? 'DELETE' : 'POST';
 
         try {
-            const response = await fetch(`http://localhost:8000/api/favorites/${spaceId}`, {
+            const response = await fetch(`/api/favorites/${spaceId}`, {
                 method,
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -69,7 +69,7 @@ const SpacesList = () => {
                 // Si es conflicto (409), forzamos el borrado en backend y frontend
                 if (response.status === 409 && !isFavorite) {
                     // Hacemos la petición DELETE real
-                    const deleteResponse = await fetch(`http://localhost:8000/api/favorites/${spaceId}`, {
+                    const deleteResponse = await fetch(`/api/favorites/${spaceId}`, {
                         method: 'DELETE',
                         headers: {
                             'Authorization': `Bearer ${token}`,
@@ -107,7 +107,7 @@ const SpacesList = () => {
         
         try {
             const token = localStorage.getItem('jwt_token');
-            const response = await fetch('http://localhost:8000/api/favorites', {
+            const response = await fetch('/api/favorites', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -198,7 +198,7 @@ const SpacesList = () => {
             if (space.images[0].startsWith('http')) {
                 imageUrl = space.images[0];
             } else {
-                imageUrl = `http://localhost:8000/uploads/spaces/${space.images[0]}`;
+                imageUrl = `/uploads/spaces/${space.images[0]}`;
             }
         }
         const cardTitleStyle = {

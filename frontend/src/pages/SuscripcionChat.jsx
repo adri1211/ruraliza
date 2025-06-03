@@ -12,7 +12,7 @@ const SuscripcionChat = () => {
       return;
     }
     const token = localStorage.getItem("jwt_token"); // O de donde lo guardes
-    const res = await fetch("http://localhost:8000/api/stripe/create-checkout-session", {
+    const res = await fetch("/api/stripe/create-checkout-session", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

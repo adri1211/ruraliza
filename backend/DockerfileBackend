@@ -1,0 +1,50 @@
+#Imagen de partida
+FROM php:8.2-fpm
+
+# Instalar dependencias
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip \
+    unzip
+
+# Instalar extensiones PHP
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+
+# Instalar Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Crear directorio de la aplicación
+WORKDIR /app
+
+# Crear usuario www-data si no existe y establecer permisos
+RUN useradd -u 1000 -m www-data || true \
+    && chown -R www-data:www-data /app \
+    && mkdir -p /var/www/.composer \
+    && chown -R www-data:www-data /var/www/.composer
+
+# Cambiar al usuario www-data
+USER www-data
+
+# Copiar los archivos de la aplicación
+COPY --chown=www-data:www-data . .
+
+# Instalar dependencias
+RUN composer install --no-interaction --no-scripts
+
+# Volver a root para el comando de inicio
+USER root
+
+# Crear directorios necesarios y establecer permisos
+RUN mkdir -p /app/var/cache /app/var/log \
+    && chown -R www-data:www-data /app/var/cache /app/var/log \
+    && chmod -R 777 /app/var/cache /app/var/log
+
+# Cambiar de nuevo a www-data para ejecutar la aplicación
+USER www-data
+
+# Comando para iniciar la aplicación
+CMD ["bash", "-c", "composer install && php -S 0.0.0.0:8000 -t public"]

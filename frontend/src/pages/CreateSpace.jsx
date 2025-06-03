@@ -78,7 +78,7 @@ const CreateSpace = () => {
       });
 
       const token = localStorage.getItem('jwt_token');
-      const response = await fetch('http://localhost:8000/api/spaces', {
+      const response = await fetch('/api/spaces', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`

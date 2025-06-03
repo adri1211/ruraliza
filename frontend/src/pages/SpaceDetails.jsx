@@ -14,7 +14,7 @@ const SpaceDetails = () => {
       try {
         setLoading(true);
         const token = localStorage.getItem('jwt_token');
-        const response = await fetch(`http://localhost:8000/api/spaces/${id}`, {
+        const response = await fetch(`/api/spaces/${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Accept': 'application/json',
@@ -40,7 +40,7 @@ const SpaceDetails = () => {
         setNotificationStatus({ type: 'error', message: 'Debes iniciar sesión para alquilar.' });
         return;
       }
-      const response = await fetch('http://localhost:8000/api/notifications', {
+      const response = await fetch('/api/notifications', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ const SpaceDetails = () => {
                   return (
                     <a
                       key={idx}
-                      href={img.startsWith('http') ? img : 'http://localhost:8000/uploads/spaces/' + img}
+                      href={img.startsWith('http') ? img : '/uploads/spaces/' + img}
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '160px', background: '#f5f1d7', borderRadius: '14px', boxShadow: '0 2px 12px #a0b88b22', textDecoration: 'none', color: '#2ee59d', fontWeight: 600, fontSize: '1.1rem', transition: 'background 0.18s' }}
@@ -96,7 +96,7 @@ const SpaceDetails = () => {
                   return (
                     <img
                       key={idx}
-                      src={img.startsWith('http') ? img : 'http://localhost:8000/uploads/spaces/' + img}
+                      src={img.startsWith('http') ? img : '/uploads/spaces/' + img}
                       alt={'Imagen ' + (idx + 1)}
                       style={{ width: '100%', height: '160px', objectFit: 'cover', borderRadius: '14px', boxShadow: '0 2px 12px #a0b88b22' }}
                     />

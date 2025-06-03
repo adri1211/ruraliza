@@ -10,7 +10,7 @@ const MySpaces = () => {
         const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar este espacio?");
         if (confirmDelete) {
             const token = localStorage.getItem("jwt_token");
-            fetch("http://localhost:8000/api/spaces/" + space.id, { method: "DELETE", headers: { "Authorization": "Bearer " + token } })
+            fetch("/api/spaces/" + space.id, { method: "DELETE", headers: { "Authorization": "Bearer " + token } })
                 .then((res) => {
                     if (!res.ok) {
                         throw new Error("Error al eliminar el espacio");

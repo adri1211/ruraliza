@@ -11,7 +11,7 @@ const Chats = () => {
     const fetchChats = async () => {
       try {
         const token = localStorage.getItem('jwt_token');
-        const response = await fetch('http://localhost:8000/api/chats', {
+        const response = await fetch('/api/chats', {
           headers: {
             'Authorization': `Bearer ${token}`,
           },

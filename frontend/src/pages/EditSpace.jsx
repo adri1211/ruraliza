@@ -19,7 +19,7 @@ const EditSpace = () => {
     const fetchSpace = async () => {
       try {
         const token = localStorage.getItem('jwt_token');
-        const response = await fetch(`http://localhost:8000/api/spaces/${id}`, {
+        const response = await fetch(`/api/spaces/${id}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!response.ok) throw new Error('No se pudo cargar el espacio');
@@ -34,7 +34,7 @@ const EditSpace = () => {
         setPreviewImages((data.images || []).map(img =>
           img.endsWith('.pdf')
             ? { type: 'pdf', name: img, src: img }
-            : { type: 'image', name: img, src: `http://localhost:8000/uploads/spaces/${img}` }
+            : { type: 'image', name: img, src: `/uploads/spaces/${img}` }
         ));
       } catch (err) {
         setError(err.message);
@@ -81,7 +81,7 @@ const EditSpace = () => {
         }
       });
       const token = localStorage.getItem('jwt_token');
-      const response = await fetch(`http://localhost:8000/api/spaces/${id}`, {
+      const response = await fetch(`/api/spaces/${id}`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formDataToSend,

@@ -10,7 +10,7 @@ const Notifications = () => {
     setError(null);
     try {
       const token = localStorage.getItem('jwt_token');
-      const response = await fetch('http://localhost:8000/api/notifications', {
+      const response = await fetch('/api/notifications', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/json',
@@ -45,7 +45,7 @@ const Notifications = () => {
   const markAsRead = async (id) => {
     try {
       const token = localStorage.getItem('jwt_token');
-      const response = await fetch(`http://localhost:8000/api/notifications/${id}/read`, {
+      const response = await fetch(`/api/notifications/${id}/read`, {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -101,7 +101,7 @@ const Notifications = () => {
       console.log('Datos para crear el chat:', chatData);
       
       // Primero creamos el chat
-      const chatResponse = await fetch('http://localhost:8000/api/chats', {
+      const chatResponse = await fetch('/api/chats', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
