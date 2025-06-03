@@ -38,7 +38,7 @@ const Footer = () => {
               Conectamos espacios rurales con emprendedores para impulsar el desarrollo económico sostenible en nuestros pueblos.
             </p>
             <div style={{ display: 'flex', gap: 16, marginTop: 18 }}>
-              <a href="#" style={{ background: '#232a36', borderRadius: '50%', width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#e5eaf1', fontSize: 20 }}><i className="fab fa-instagram"></i></a>
+              <a href="https://www.instagram.com/reavivagr/" style={{ background: '#232a36', borderRadius: '50%', width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#e5eaf1', fontSize: 20 }}><i className="fab fa-instagram"></i></a>
             </div>
           </div>
 
@@ -48,7 +48,7 @@ const Footer = () => {
             <ul style={{ marginTop: 0, listStyle: 'none', padding: 0 }}>
               <li><Link to="/espacios" style={{ color: '#e5eaf1', fontSize: '1rem', textDecoration: 'none' }}>Buscar espacios</Link></li>
               <li><Link to="/ofrecer-espacio" style={{ color: '#e5eaf1', fontSize: '1rem', textDecoration: 'none' }}>Ofrecer espacio</Link></li>
-              <li><Link to="/como-funciona" style={{ color: '#e5eaf1', fontSize: '1rem', textDecoration: 'none' }}>Cómo funciona</Link></li>
+              <li><Link to="/" style={{ color: '#e5eaf1', fontSize: '1rem', textDecoration: 'none' }}>Cómo funciona</Link></li>
             </ul>
           </div>
 

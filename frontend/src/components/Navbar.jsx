@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { FaBars, FaTimes } from 'react-icons/fa';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -38,7 +37,8 @@ const Navbar = () => {
             </Link>
             <button
               onClick={toggleMenu}
-              style={{ marginLeft: '1rem', padding: '0.5rem', borderRadius: '0.375rem', color: '#A0B88B', background: 'transparent', border: 'none', cursor: 'pointer' }}
+              className="navbar-hamburger"
+              style={{ marginLeft: '1rem', padding: '0.5rem', borderRadius: '0.375rem', color: '#A0B88B', background: 'transparent', border: 'none', cursor: 'pointer', display: 'none' }}
             >
               {isMenuOpen ? (
                 <FaTimes style={{ height: '1.5rem', width: '1.5rem' }} />
@@ -47,7 +47,24 @@ const Navbar = () => {
               )}
             </button>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+
+          {/* Menú normal solo en escritorio */}
+          <div className="navbar-desktop-menu" style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+            <Link
+              to="/espacios"
+              style={{ color: '#A0B88B', fontWeight: 600, fontSize: '1.08rem', textDecoration: 'underline', background: 'transparent', padding: 0, borderRadius: 0 }}
+            >
+              Buscar espacios
+            </Link>
+            <Link
+              to="/ofrecer-espacio"
+              style={{ color: '#A0B88B', fontWeight: 600, fontSize: '1.08rem', textDecoration: 'underline', background: 'transparent', padding: 0, borderRadius: 0 }}
+            >
+              Añadir espacio
+            </Link>
+          </div>
+
+          <div className="navbar-desktop-menu" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
             {user ? (
               <>
                 <Link
@@ -209,6 +226,16 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      <style>{`
+        @media (max-width: 900px) {
+          .navbar-hamburger {
+            display: inline-block !important;
+          }
+          .navbar-desktop-menu {
+            display: none !important;
+          }
+        }
+      `}</style>
     </nav>
   );
 };

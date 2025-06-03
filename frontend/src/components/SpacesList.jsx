@@ -12,6 +12,7 @@ const SpacesList = () => {
     const [favorites, setFavorites] = useState([]);
     const { user } = useAuth();
     const { filters } = useFilters();
+    const [feedback, setFeedback] = useState('');
 
     const fetchSpaces = async () => {
         try {
@@ -49,16 +50,13 @@ const SpacesList = () => {
     };
 
     const toggleFavorite = async (spaceId) => {
-        if (!user) {
-            // Si el usuario no está autenticado, podríamos mostrar un mensaje o redirigir al login
-            return;
-        }
+        if (!user) return;
+
+        const token = localStorage.getItem('jwt_token');
+        const isFavorite = favorites.includes(spaceId);
+        const method = isFavorite ? 'DELETE' : 'POST';
 
         try {
-            const token = localStorage.getItem('jwt_token');
-            const isFavorite = favorites.includes(spaceId);
-            const method = isFavorite ? 'DELETE' : 'POST';
-            
             const response = await fetch(`http://localhost:8000/api/favorites/${spaceId}`, {
                 method,
                 headers: {
@@ -68,16 +66,38 @@ const SpacesList = () => {
             });
 
             if (!response.ok) {
+                // Si es conflicto (409), forzamos el borrado en backend y frontend
+                if (response.status === 409 && !isFavorite) {
+                    // Hacemos la petición DELETE real
+                    const deleteResponse = await fetch(`http://localhost:8000/api/favorites/${spaceId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    if (deleteResponse.ok) {
+                        setFavorites(prev => prev.filter(id => id !== spaceId));
+                        setFeedback('Eliminado de favoritos');
+                    } else {
+                        setFeedback('Error al eliminar de favoritos');
+                    }
+                    setTimeout(() => setFeedback(''), 1500);
+                    return;
+                }
                 throw new Error('Error al actualizar favoritos');
             }
 
-            setFavorites(prev => 
-                isFavorite 
+            setFavorites(prev =>
+                isFavorite
                     ? prev.filter(id => id !== spaceId)
                     : [...prev, spaceId]
             );
+            setFeedback(isFavorite ? 'Eliminado de favoritos' : 'Añadido a favoritos');
+            setTimeout(() => setFeedback(''), 1500);
         } catch (err) {
-            console.error('Error al actualizar favoritos:', err);
+            setFeedback('Error al actualizar favoritos');
+            setTimeout(() => setFeedback(''), 1500);
         }
     };
 
@@ -299,6 +319,11 @@ const SpacesList = () => {
     return (
         <div style={{ maxWidth: '90rem', margin: '0 auto', padding: '2rem 1rem' }}>
             <h1 style={{ fontSize: '2rem', fontWeight: 'bold', color: '#A0B88B', marginBottom: '1.5rem' }}>Espacios Disponibles</h1>
+            {feedback && (
+                <div style={{ position: 'fixed', top: 80, right: 30, background: '#A0B88B', color: '#fff', padding: '10px 20px', borderRadius: 8, zIndex: 1000 }}>
+                    {feedback}
+                </div>
+            )}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>
                 {filteredSpaces.map((space) => (
                     <SpaceCard

@@ -72,11 +72,25 @@ class StripeController extends AbstractController
                     return new Response('Usuario no encontrado', 404);
                 }
 
-                error_log('Usuario encontrado, actualizando suscripción para: ' . $email);
+                error_log('Estado actual de isSubscribed antes de actualizar: ' . ($user->isSubscribed() ? 'true' : 'false'));
                 $user->setIsSubscribed(true);
-                $this->entityManager->persist($user);
-                $this->entityManager->flush();
-                error_log('Suscripción actualizada exitosamente para: ' . $email);
+                error_log('Estado de isSubscribed después de setIsSubscribed: ' . ($user->isSubscribed() ? 'true' : 'false'));
+                
+                try {
+                    $this->entityManager->persist($user);
+                    error_log('Usuario persistido correctamente');
+                    $this->entityManager->flush();
+                    error_log('Cambios guardados en la base de datos');
+                    
+                    // Verificar el estado después de guardar
+                    $this->entityManager->clear(); // Limpiar el entity manager
+                    $userVerificado = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
+                    error_log('Estado final de isSubscribed después de guardar: ' . ($userVerificado->isSubscribed() ? 'true' : 'false'));
+                } catch (\Exception $e) {
+                    error_log('Error al guardar en la base de datos: ' . $e->getMessage());
+                    error_log('Stack trace del error de base de datos: ' . $e->getTraceAsString());
+                    throw $e;
+                }
             }
 
             return new Response('Webhook procesado correctamente', 200);
