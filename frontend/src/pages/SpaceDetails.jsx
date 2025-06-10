@@ -8,6 +8,7 @@ const SpaceDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [notificationStatus, setNotificationStatus] = useState(null);
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
 
   useEffect(() => {
     const fetchSpace = async () => {
@@ -81,7 +82,7 @@ const SpaceDetails = () => {
                   return (
                     <a
                       key={idx}
-                      href={img.startsWith('http') ? img : '/uploads/spaces/' + img}
+                      href={img.startsWith('http') ? img : `${BACKEND_URL}/uploads/spaces/${img}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '160px', background: '#f5f1d7', borderRadius: '14px', boxShadow: '0 2px 12px #a0b88b22', textDecoration: 'none', color: '#2ee59d', fontWeight: 600, fontSize: '1.1rem', transition: 'background 0.18s' }}
@@ -96,7 +97,7 @@ const SpaceDetails = () => {
                   return (
                     <img
                       key={idx}
-                      src={img.startsWith('http') ? img : '/uploads/spaces/' + img}
+                      src={img.startsWith('http') ? img : `${BACKEND_URL}/uploads/spaces/${img}`}
                       alt={'Imagen ' + (idx + 1)}
                       style={{ width: '100%', height: '160px', objectFit: 'cover', borderRadius: '14px', boxShadow: '0 2px 12px #a0b88b22' }}
                     />

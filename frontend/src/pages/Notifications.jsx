@@ -145,14 +145,6 @@ const Notifications = () => {
                 <div className="text-xs text-gray-400 mt-1">{new Date(n.createdAt).toLocaleString()}</div>
               </div>
               <div className="flex gap-2">
-                {!n.isRead && (
-                  <button
-                    onClick={() => markAsRead(n.id)}
-                    className="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-xs"
-                  >
-                    Marcar como leída
-                  </button>
-                )}
                 <button
                   onClick={() => iniciarChat(n)}
                   className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-xs"

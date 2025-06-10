@@ -32,8 +32,8 @@ class StripeController extends AbstractController
                 'price' => 'price_1RVBMkPfJNBJHVdcrXiPBSU6', // Copia el ID del precio de Stripe
                 'quantity' => 1,
             ]],
-            'success_url' => 'http://107.21.9.156/suscripcion-exitosa',
-            'cancel_url' => 'http://107.21.9.156/suscripcion-cancelada',
+            'success_url' => 'http://54.224.90.26/suscripcion-exitosa',
+            'cancel_url' => 'http://54.224.90.26/suscripcion-cancelada',
             'customer_email' => $data['email'] ?? null,
         ]);
 
