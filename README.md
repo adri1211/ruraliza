@@ -153,5 +153,31 @@ La base de datos se inicializa automáticamente cuando se inicia el contenedor d
 - En producción, asegúrate de cambiar todas las contraseñas y claves
 - No subir archivos `.env` o claves JWT al repositorio
 
+### Archivo .env
+
+APP_ENV=dev
+APP_SECRET=
+
+DATABASE_URL="mysql://root@127.0.0.1:3306/rental_app?serverVersion=8.0.23&charset=utf8mb4"
+
+MESSENGER_TRANSPORT_DSN=doctrine://default?auto_setup=0
+
+MAILER_DSN=null://null
+
+
+JWT_PASSPHRASE=palenciana
+JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem
+JWT_PRIVATE_KEY=%kernel.project_dir%/config/jwt/private.pem
+
+CORS_ALLOW_ORIGIN='^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$'
+
+CORS_ALLOW_ORIGIN='^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$'
+
+OPENAI_API_KEY=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
+
+STRIPE_SECRET_KEY=sk_test_51RMSlrPfJNBJHVdcXSFg7XvoAuRrPyy3UCdTrSYV27YaSml44k48k9UjijbmsuP16I93peFBWf7jHkE4Oze3u9CD00MCvSkuIp
+
+STRIPE_WEBHOOK_SECRET=whsec_da4af95409b8f1a68c63be264f491ba57ad4592de629eace36eb1b343d9f6b08
+
 
 
